@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SignupActivity" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/splash_screen"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:contentDescription="@string/mainscreen_bg_description"
+        android:longClickable="true"
+        android:scaleType="center"
+        android:src="@drawable/splash_screen"
+        android:visibility="visible" />
+
+    <EditText
+        android:id="@+id/signup_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="188dp"
+        android:inputType="text"
+        android:hint="@string/signup_username"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:ems="10" >
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/signup_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/signup_username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:hint="@string/signup_password"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/signup_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/signup_username"
+        android:layout_alignRight="@+id/signup_username"
+        android:layout_below="@+id/signup_password"
+        android:layout_marginTop="20dp"
+        android:textColor="#fff"
+        android:onClick="onClickBtn"
+        android:text="@string/action_signup" />
+
+</RelativeLayout>
