@@ -11,7 +11,7 @@
         android:layout_gravity="center"
         android:contentDescription="@string/mainscreen_bg_description"
         android:longClickable="true"
-        android:scaleType="center"
+        android:scaleType="fitXY"
         android:src="@drawable/splash_screen"
         android:visibility="visible" />
 

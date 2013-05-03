@@ -14,4 +14,9 @@ public class QBManager {
         qbUser.setPassword(password);
         QBUsers.signUp(qbUser, callback, context);
     }
+	
+	static public void signInUser(String login, String password, QBCallback callback, QBQueries context) {
+		QBUser qbUser = new QBUser(login, password);
+		QBUsers.signIn(qbUser, callback, context);
+	}
 }
