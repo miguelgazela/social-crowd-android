@@ -3,10 +3,12 @@
 
     <string name="app_name">Social Crowd</string>
     <string name="action_settings">Settings</string>
-    
+
     <!-- MainScreenActivity -->
     <string name="login_btn">Login</string>
     <string name="signup_btn">Signup</string>
     <string name="mainscreen_bg_description">Main screen background image</string>
+    <string name="title_event_list">Events</string>
+    <string name="title_event_detail">Event Detail</string>
 
 </resources>
