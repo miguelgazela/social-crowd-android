@@ -1,6 +1,6 @@
-package pt.up.fe.socialcrowd.managers;
+package socialcrowd.managers;
 
-import pt.up.fe.socialcrowd.definitions.QBQueries;
+import socialcrowd.definitions.QBQueries;
 
 import com.quickblox.core.QBCallback;
 import com.quickblox.module.users.QBUsers;

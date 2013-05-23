@@ -1,4 +1,4 @@
-package pt.up.fe.socialcrowd.activities;
+package socialcrowd.activities;
 
 
 import pt.up.fe.socialcrowd.R;

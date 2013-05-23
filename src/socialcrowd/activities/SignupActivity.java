@@ -1,4 +1,4 @@
-package pt.up.fe.socialcrowd.activities;
+package socialcrowd.activities;
 
 import com.quickblox.core.QBCallback;
 import com.quickblox.core.result.Result;

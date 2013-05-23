@@ -1,4 +1,4 @@
-package pt.up.fe.socialcrowd.definitions;
+package socialcrowd.definitions;
 
 public enum QBQueries {
 	
