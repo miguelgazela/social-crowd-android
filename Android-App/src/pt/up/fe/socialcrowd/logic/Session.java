@@ -1,4 +1,4 @@
-package sdis.socialcrowd.logic;
+package pt.up.fe.sdis.socialcrowd.logic;
 
 public class Session {
 	private String session_id;

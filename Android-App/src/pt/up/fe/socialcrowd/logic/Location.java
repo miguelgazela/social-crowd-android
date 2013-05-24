@@ -1,4 +1,4 @@
-package sdis.socialcrowd.logic;
+package pt.up.fe.sdis.socialcrowd.logic;
 import org.json.JSONException;
 import org.json.JSONObject;
 
