@@ -1,4 +1,4 @@
-package pt.up.fe.socialcrowd;
+package pt.up.fe.socialcrowd.activities;
 
 import android.app.Activity;
 import android.os.Bundle;

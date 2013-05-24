@@ -44,11 +44,11 @@
                 android:value="pt.up.fe.socialcrowd.activities.MainScreenActivity" />
         </activity>
         <activity
-            android:name="pt.up.fe.socialcrowd.EventListActivity"
+            android:name="pt.up.fe.socialcrowd.activities.EventListActivity"
             android:label="@string/title_event_list" >
         </activity>
         <activity
-            android:name="pt.up.fe.socialcrowd.EventDetailActivity"
+            android:name="pt.up.fe.socialcrowd.activities.EventDetailActivity"
             android:label="@string/title_event_detail"
             android:parentActivityName=".EventListActivity" >
             <meta-data

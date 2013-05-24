@@ -1,4 +1,4 @@
-package pt.up.fe.sdis.socialcrowd.logic;
+package pt.up.fe.socialcrowd.logic;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sdis.socialcrowd.API.RequestException;
+import pt.up.fe.socialcrowd.API.RequestException;
 
 
 public class BaseEvent {
