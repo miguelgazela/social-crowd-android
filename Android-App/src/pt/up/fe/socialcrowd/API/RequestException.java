@@ -1,4 +1,4 @@
-package pt.up.fe.sdis.socialcrowd.API;
+package pt.up.fe.socialcrowd.API;
 
 public class RequestException extends Throwable {
 	/**

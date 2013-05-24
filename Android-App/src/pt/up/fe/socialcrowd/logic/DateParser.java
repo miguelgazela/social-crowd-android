@@ -1,4 +1,4 @@
-package pt.up.fe.sdis.socialcrowd.logic;
+package pt.up.fe.socialcrowd.logic;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

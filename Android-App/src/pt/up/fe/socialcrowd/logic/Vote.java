@@ -1,4 +1,4 @@
-package pt.up.fe.sdis.socialcrowd.logic;
+package pt.up.fe.socialcrowd.logic;
 
 public abstract class Vote {
 	public static final int UPVOTE = 1;

@@ -1,4 +1,4 @@
-package pt.up.fe.sdis.socialcrowd.API;
+package pt.up.fe.socialcrowd.API;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,17 +23,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sdis.socialcrowd.logic.BaseEvent;
-import sdis.socialcrowd.logic.Comment;
-import sdis.socialcrowd.logic.DateParser;
-import sdis.socialcrowd.logic.DetailedEvent;
-import sdis.socialcrowd.logic.Downvote;
-import sdis.socialcrowd.logic.Location;
-import sdis.socialcrowd.logic.Rating;
-import sdis.socialcrowd.logic.Session;
-import sdis.socialcrowd.logic.Subscription;
-import sdis.socialcrowd.logic.Upvote;
-import sdis.socialcrowd.logic.Vote;
+import pt.up.fe.socialcrowd.logic.BaseEvent;
+import pt.up.fe.socialcrowd.logic.Comment;
+import pt.up.fe.socialcrowd.logic.DateParser;
+import pt.up.fe.socialcrowd.logic.DetailedEvent;
+import pt.up.fe.socialcrowd.logic.Downvote;
+import pt.up.fe.socialcrowd.logic.Location;
+import pt.up.fe.socialcrowd.logic.Rating;
+import pt.up.fe.socialcrowd.logic.Session;
+import pt.up.fe.socialcrowd.logic.Subscription;
+import pt.up.fe.socialcrowd.logic.Upvote;
+import pt.up.fe.socialcrowd.logic.Vote;
 
 public abstract class Request {
 	public static final int POST = 2;
