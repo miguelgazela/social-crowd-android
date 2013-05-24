@@ -5,10 +5,16 @@
     <string name="action_settings">Settings</string>
 
     <!-- MainScreenActivity -->
-    <string name="login_btn">Login</string>
+    <string name="signin">Sign In</string>
     <string name="signup_btn">Signup</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
     <string name="mainscreen_bg_description">Main screen background image</string>
-    <string name="title_event_list">Events</string>
-    <string name="title_event_detail">Event Detail</string>
+    <string name="user_successfully_sign_in">User has successfully signed in!</string>
+    
+    <!-- SignupActivity -->
+    <string name="title_activity_signup">Sign up</string>
+    <string name="action_signup">Sign up</string>
+    <string name="please_wait">Please wait...</string>
 
 </resources>

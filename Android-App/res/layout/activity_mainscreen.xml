@@ -1,50 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/splash_screen"
+        android:id="@+id/mainscreen"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="center"
         android:contentDescription="@string/mainscreen_bg_description"
         android:longClickable="true"
         android:scaleType="fitXY"
-        android:src="@drawable/splash_screen"
+        android:src="@drawable/mainscreen"
         android:visibility="visible" />
 
     <Button
         android:id="@+id/signup_btn"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/login_btn"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="68dp"
         android:onClick="onClickBtn"
+        android:text="@string/signup_btn"
         android:textColor="#fff"
-        android:visibility="invisible"
-        android:text="@string/signup_btn" />
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/signin_password"
+        style="@style/mainscreen_edittext"
+        android:layout_y="251dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/signin_username"
+        style="@style/mainscreen_edittext"
+        android:layout_y="199dp"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:visibility="invisible" />
 
     <Button
-        android:id="@+id/login_btn"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/signup_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="22dp"
+        android:id="@+id/signin_btn"
+        style="@style/large_btn"
+        android:layout_y="303dp"
         android:onClick="onClickBtn"
-        android:textColor="#fff"
-        android:visibility="invisible"
-        android:text="@string/login_btn" />
+        android:text="@string/signin"
+        android:visibility="invisible"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/signup_btn"
-        android:layout_centerHorizontal="true" />
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:layout_x="132dp"
+        android:layout_y="340dp" />
 
-</RelativeLayout>
+</AbsoluteLayout>

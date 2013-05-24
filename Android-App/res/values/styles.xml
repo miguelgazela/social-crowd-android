@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -17,11 +17,25 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-
-    <style name="SignupFormContainer">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">16dp</item>
+    
+    <style name="mainscreen_edittext">
+        <item name="android:background">#fff</item>
+        <item name="android:ems">10</item>
+        <item name="android:layout_width">266dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_x">46dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">#ccc</item>
+        <item name="android:textColorHint">#ccc</item>
     </style>
+    
+    <style name="large_btn">
+        <item name="android:layout_width">266dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_x">46dp</item>
+        <item name="android:background">#09c</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+   
 
 </resources>

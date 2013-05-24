@@ -35,8 +35,8 @@ public class SignupActivity extends Activity {
 	}
 
 	private void initialize() {
-		username = (EditText) findViewById(R.id.signup_username);
-		password = (EditText) findViewById(R.id.signup_password);
+//		username = (EditText) findViewById(R.id.signup_username);
+//		password = (EditText) findViewById(R.id.signup_password);
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setCancelable(false);
 		progressDialog.setMessage(getResources().getString(R.string.please_wait));
@@ -88,13 +88,4 @@ public class SignupActivity extends Activity {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.signup, menu);
-		return true;
-	}
-
-	
 }
