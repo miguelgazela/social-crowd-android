@@ -23,17 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pt.up.fe.socialcrowd.logic.BaseEvent;
-import pt.up.fe.socialcrowd.logic.Comment;
-import pt.up.fe.socialcrowd.logic.DateParser;
-import pt.up.fe.socialcrowd.logic.DetailedEvent;
-import pt.up.fe.socialcrowd.logic.Downvote;
-import pt.up.fe.socialcrowd.logic.Location;
-import pt.up.fe.socialcrowd.logic.Rating;
-import pt.up.fe.socialcrowd.logic.Session;
-import pt.up.fe.socialcrowd.logic.Subscription;
-import pt.up.fe.socialcrowd.logic.Upvote;
-import pt.up.fe.socialcrowd.logic.Vote;
+import pt.up.fe.socialcrowd.logic.*;
 
 public abstract class Request {
 	public static final int POST = 2;
