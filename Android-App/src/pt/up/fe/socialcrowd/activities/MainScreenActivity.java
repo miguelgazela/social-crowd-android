@@ -106,6 +106,7 @@ public class MainScreenActivity extends Activity {
 							setResult(RESULT_OK);
 							QBUserResult qbUserResult = (QBUserResult) result;
 							Toast.makeText(getBaseContext(), getResources().getString(R.string.user_successfully_sign_in), Toast.LENGTH_LONG).show();
+							goToHomeScreen();
 							//finish();
 							break;
 						default:
@@ -131,6 +132,10 @@ public class MainScreenActivity extends Activity {
 		default:
 			break;
 		}
+	}
+	
+	private void goToHomeScreen() {
+		startActivity(new Intent(this, HomeActivity.class));
 	}
 	
 	private void initializeMainScreen() {

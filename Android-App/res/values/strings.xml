@@ -13,15 +13,22 @@
     <string name="user_successfully_sign_in">User has successfully signed in!</string>
 
     <!-- SignupActivity -->
-    <string name="title_activity_signup">Sign up</string>
+    
     <string name="action_signup">Sign up</string>
     <string name="please_wait">Please wait...</string>
-    <string name="title_activity_events_list">EventsList</string>
-    <string name="hello_world">Hello world!</string>
+    
+    <!-- Activities titles -->
+    <string name="title_activity_events_list">Events</string>
+    <string name="title_activity_signup">Sign up</string>
     <string name="title_activity_dashboard">Dashboard</string>
-    <string name="title_activity_new_event">NewEventActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_activity_about">AboutActivity</string>
-    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_new_event">New Event</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_home">SocialCrowd</string>
+    
+    <!-- Others -->
+    <string name="hello_world">Hello world!</string>
+    <string name="description_logo">Our awesome app</string>
 
 </resources>

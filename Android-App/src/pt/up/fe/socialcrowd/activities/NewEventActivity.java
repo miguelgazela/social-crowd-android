@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class NewEventActivity extends Activity {
+public class NewEventActivity extends DashboardActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event);
+		setTitleFromActivityLabel (R.string.title_activity_new_event);
 	}
 
 	@Override

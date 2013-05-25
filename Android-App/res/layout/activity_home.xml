@@ -1,22 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".AboutActivity" >
-    
-    <LinearLayout
-        style="@style/TitleBar" >
-        
+    android:orientation="vertical"
+    tools:context=".HomeActivity" >
+
+     <LinearLayout style="@style/TitleBar" >
+
         <ImageView
             style="@style/TitleBarLogo"
-            android:contentDescription="@string/title_activity_home"
+            android:contentDescription="@string/description_logo"
             android:src="@drawable/title_logo" />
-        
+
         <ImageView style="@style/TitleBarSeparator" />
-        
+
         <TextView style="@style/TitleBarText" />
-        
+
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_about"
@@ -28,10 +27,9 @@
             android:contentDescription="@string/title_activity_search"
             android:onClick="onClickSearch"
             android:src="@drawable/title_search" />
-        
     </LinearLayout>
-
-    <TextView
+    
+     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />

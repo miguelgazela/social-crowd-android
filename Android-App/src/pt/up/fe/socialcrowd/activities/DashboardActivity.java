@@ -54,37 +54,42 @@ public abstract class DashboardActivity extends Activity {
 	 * @param v View
 	 */
 	public void onClickAbout (View v) {
-	    startActivity (new Intent(getApplicationContext(), AboutActivity.class));
+		startActivity (new Intent(getApplicationContext(), AboutActivity.class));
 	}
-	
+
 	public void onClickFeature (View v) {
-	    int id = v.getId ();
-	    switch (id) {
-	      case R.id.home_btn_newEvent :
-	           startActivity (new Intent(getApplicationContext(), F1Activity.class));
-	           break;
-	      case R.id.home_btn_listEvents :
-	           startActivity (new Intent(getApplicationContext(), F2Activity.class));
-	           break;
-	      case R.id.home_btn_listSubscriptions :
-	           startActivity (new Intent(getApplicationContext(), F3Activity.class));
-	           break;
-	      case R.id.home_btn_listMyEvents :
-	           startActivity (new Intent(getApplicationContext(), F4Activity.class));
-	           break;
-	      case R.id.home_btn_settings :
-	           startActivity (new Intent(getApplicationContext(), F5Activity.class));
-	           break;
-	      case R.id.home_btn_logout :
-	           startActivity (new Intent(getApplicationContext(), F6Activity.class));
-	           break;
-	      default: 
-	    	   break;
-	    }
+		int id = v.getId ();
+		/*
+		switch (id) {
+		case R.id.home_btn_newEvent :
+			startActivity (new Intent(getApplicationContext(), NewEventActivity.class));
+			break;
+		case R.id.home_btn_listEvents :
+			// needs to pass information
+			startActivity (new Intent(getApplicationContext(), EventsListActivity.class));
+			break;
+		case R.id.home_btn_listSubscriptions :
+			// needs to pass information
+			startActivity (new Intent(getApplicationContext(), EventsListActivity.class));
+			break;
+		case R.id.home_btn_listMyEvents :
+			// needs to pass information
+			startActivity (new Intent(getApplicationContext(), EventsListActivity.class));
+			break;
+		case R.id.home_btn_settings :
+			startActivity (new Intent(getApplicationContext(), SettingsActivity.class));
+			break;
+		case R.id.home_btn_logout :
+			// TODO logout
+			break;
+		default: 
+			break;
+		}
+		*/
 	}
-	
+
 	// Other methods
-	
+
 	public void goHome(Context context) {
 	    final Intent intent = new Intent(context, HomeActivity.class);
 	    intent.setFlags (Intent.FLAG_ACTIVITY_CLEAR_TOP);
