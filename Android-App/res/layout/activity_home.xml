@@ -3,10 +3,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:background="@color/background_blue"
     tools:context=".HomeActivity" >
-
-     <LinearLayout style="@style/TitleBar" >
-
+    
+    <LinearLayout style="@style/TitleBar" >
+        
         <ImageView
             style="@style/TitleBarLogo"
             android:contentDescription="@string/description_logo"
@@ -28,10 +29,75 @@
             android:onClick="onClickSearch"
             android:src="@drawable/title_search" />
     </LinearLayout>
-    
-     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="6dip" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/home_btn_newEvent"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_btn_newevent"
+                android:onClick="onClickFeature"
+                android:text="@string/addNewEvent" />
+
+            <Button
+                android:id="@+id/home_btn_listEvents"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_btn_newevent"
+                android:onClick="onClickFeature"
+                android:text="@string/listEvents" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/home_btn_listSubscriptions"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_btn_newevent"
+                android:onClick="onClickFeature"
+                android:text="@string/mySubscriptions" />
+
+            <Button
+                android:id="@+id/home_btn_listMyEvents"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_btn_newevent"
+                android:onClick="onClickFeature"
+                android:text="@string/myEvents" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/home_btn_settings"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_btn_newevent"
+                android:onClick="onClickFeature"
+                android:text="@string/settings" />
+
+            <Button
+                android:id="@+id/home_btn_logout"
+                style="@style/HomeButton"
+                android:drawableTop="@drawable/home_btn_newevent"
+                android:onClick="onClickFeature"
+                android:text="@string/logout" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

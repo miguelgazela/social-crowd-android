@@ -21,7 +21,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">#1186c0</item>
+        <item name="android:background">@color/dark_blue</item>
     </style>
     
     <style name="TitleBarSeparator">
@@ -82,6 +82,18 @@
         <item name="android:layout_x">46dp</item>
         <item name="android:background">#09c</item>
         <item name="android:textColor">#fff</item>
+    </style>
+    
+    <style name="HomeButton">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:background">@null</item>
     </style>
    
 
