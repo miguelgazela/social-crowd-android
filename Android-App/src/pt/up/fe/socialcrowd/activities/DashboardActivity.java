@@ -1,18 +1,19 @@
 package pt.up.fe.socialcrowd.activities;
 
 import pt.up.fe.socialcrowd.R;
-import pt.up.fe.socialcrowd.R.layout;
-import pt.up.fe.socialcrowd.R.menu;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 public abstract class DashboardActivity extends Activity {
 
+	static public final String LIST_EVENTS = "LIST_EVENTS";
+	static public final String LIST_SUBSCRIPTIONS = "LIST_SUBSCRIPTIONS";
+	static public final String LIST_MY_EVENTS = "LIST_MY_EVENTS";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,40 +42,39 @@ public abstract class DashboardActivity extends Activity {
 	
 	// Click methods
 	
-	/**
-	 * Handle the click on the search button
-	 * @param v View
-	 */
+	public void onClickHome (View v) {
+	    goHome (this);
+	}
+	
 	public void onClickSearch (View v) {
 	    startActivity (new Intent(getApplicationContext(), SearchActivity.class));
 	}
 
-	/**
-	 * Handle the click on the about button
-	 * @param v View
-	 */
 	public void onClickAbout (View v) {
 		startActivity (new Intent(getApplicationContext(), AboutActivity.class));
 	}
 
 	public void onClickFeature (View v) {
 		int id = v.getId ();
-		/*
+		Intent intent;
 		switch (id) {
 		case R.id.home_btn_newEvent :
 			startActivity (new Intent(getApplicationContext(), NewEventActivity.class));
 			break;
 		case R.id.home_btn_listEvents :
-			// needs to pass information
-			startActivity (new Intent(getApplicationContext(), EventsListActivity.class));
+			intent = new Intent(getApplicationContext(), EventsListActivity.class);
+			intent.putExtra("LIST_TYPE", DashboardActivity.LIST_EVENTS);
+			startActivity(intent);
 			break;
 		case R.id.home_btn_listSubscriptions :
-			// needs to pass information
-			startActivity (new Intent(getApplicationContext(), EventsListActivity.class));
+			intent = new Intent(getApplicationContext(), EventsListActivity.class);
+			intent.putExtra("LIST_TYPE", DashboardActivity.LIST_SUBSCRIPTIONS);
+			startActivity(intent);
 			break;
 		case R.id.home_btn_listMyEvents :
-			// needs to pass information
-			startActivity (new Intent(getApplicationContext(), EventsListActivity.class));
+			intent = new Intent(getApplicationContext(), EventsListActivity.class);
+			intent.putExtra("LIST_TYPE", DashboardActivity.LIST_MY_EVENTS);
+			startActivity(intent);
 			break;
 		case R.id.home_btn_settings :
 			startActivity (new Intent(getApplicationContext(), SettingsActivity.class));
@@ -85,7 +85,6 @@ public abstract class DashboardActivity extends Activity {
 		default: 
 			break;
 		}
-		*/
 	}
 
 	// Other methods
@@ -102,12 +101,4 @@ public abstract class DashboardActivity extends Activity {
 	    	tv.setText (getTitle ());
 	    }
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.dashboard, menu);
-		return true;
-	}
-
 }
