@@ -15,8 +15,8 @@ public class EventsListActivity extends DashboardActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitleFromActivityLabel (R.string.title_activity_events_list);
 		setContentView(R.layout.activity_list_events);
+		setTitleFromActivityLabel(R.id.title_text);
 		
 		// check what kind 
 		String listingType = getIntent().getStringExtra("LIST_TYPE");

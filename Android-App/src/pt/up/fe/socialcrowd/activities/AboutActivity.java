@@ -8,7 +8,7 @@ public class AboutActivity extends DashboardActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitleFromActivityLabel(R.string.title_activity_about);
 		setContentView(R.layout.activity_about);
+		setTitleFromActivityLabel(R.id.title_text);
 	}
 }

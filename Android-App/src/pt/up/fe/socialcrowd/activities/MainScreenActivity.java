@@ -5,12 +5,10 @@ import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.definitions.Consts;
 import pt.up.fe.socialcrowd.definitions.QBQueries;
 import pt.up.fe.socialcrowd.managers.QBManager;
-import android.app.Activity;
+import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,13 +19,12 @@ import com.quickblox.core.QBCallback;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.result.Result;
 import com.quickblox.module.auth.QBAuth;
-import com.quickblox.module.users.result.QBUserResult;
 
 
-public class MainScreenActivity extends Activity {
+public class MainScreenActivity extends DashboardActivity {
 	
 	private ProgressBar progressBar;
-	private EditText login, password;
+	private EditText username, password;
 	private ProgressDialog progressDialog;
 
 	@Override
@@ -51,7 +48,6 @@ public class MainScreenActivity extends Activity {
         		if (result.isSuccess()) {
         			switch (qbQueryType) {
         			case QB_QUERY_AUTHORIZE_APP:
-        				initializeMainScreen();
         				showMainScreen();
         				break;
         			}
@@ -65,18 +61,6 @@ public class MainScreenActivity extends Activity {
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.splash, menu);
-		return true;
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-	
-	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		// destroy session after app close
@@ -86,60 +70,103 @@ public class MainScreenActivity extends Activity {
 		});
 	}
 	
-	public void onClickBtn(View v) {
-		Intent intent;
-		
-		switch (v.getId()) {
-		case R.id.signin_btn:
-		{	
-			System.out.println("clicked sign in button");
-			progressDialog.show();
-			QBManager.signInUser(login.getText().toString(), password.getText().toString(), new QBCallback() {
+	public void onClickSignIn(View v) {
+		progressDialog.show();
+		QBManager.signInUser(username.getText().toString(), password.getText().toString(), new SignInQBCallBack(), QBQueries.QB_QUERY_SIGN_IN_USER);
+	}
 
-				@Override 
-				public void onComplete(Result result, Object query) {
-					QBQueries qbQueryType = (QBQueries) query;
+	public void onClickSignUp(View v) {
+		progressDialog.show();
+		// call QB Signup query
+		QBManager.signUpUser(username.getText().toString(), password.getText().toString(), new QBCallback() {
 
-					if (result.isSuccess()) {
-						switch (qbQueryType) {
-						case QB_QUERY_SIGN_IN_USER:
-							setResult(RESULT_OK);
-							QBUserResult qbUserResult = (QBUserResult) result;
-							Toast.makeText(getBaseContext(), getResources().getString(R.string.user_successfully_sign_in), Toast.LENGTH_LONG).show();
-							goToHomeScreen();
-							//finish();
-							break;
-						default:
-							break;
-						}
-					} else { // print errors that came from server
-						Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
+			@Override 
+			public void onComplete(Result result, Object query) {
+				QBQueries qbQueryType = (QBQueries) query;
+
+				if (result.isSuccess()) {
+					switch (qbQueryType) {
+					case QB_QUERY_SIGN_UP_USER:
+//						System.out.println(result);
+						QBManager.signInUser(username.getText().toString(), password.getText().toString(), new SignInQBCallBack(), QBQueries.QB_QUERY_SIGN_IN_USER);
+						break;
+					default:
+						break;
 					}
-					progressDialog.hide();
+				} else {
+					// print errors that came from server
+					Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
 				}
+				progressDialog.hide();
+			}
 
-				@Override public void onComplete(Result result) {}
-			}, QBQueries.QB_QUERY_SIGN_IN_USER);
-			break;
+			@Override public void onComplete(Result result) {}
+		}, QBQueries.QB_QUERY_SIGN_UP_USER);
+	}
+	
+	private class SignInQBCallBack implements QBCallback {
+
+		@Override
+		public void onComplete(Result arg0) {}
+
+		@Override
+		public void onComplete(Result result, Object context) {
+			QBQueries qbQueryType = (QBQueries) context;
+
+			if (result.isSuccess()) {
+				switch (qbQueryType) {
+				case QB_QUERY_SIGN_IN_USER:
+					setResult(RESULT_OK);
+					//QBUserResult qbUserResult = (QBUserResult) result;
+					Toast.makeText(getBaseContext(), getResources().getString(R.string.user_successfully_sign_in), Toast.LENGTH_LONG).show();
+					goToHomeActivity();
+					break;
+				default:
+					break;
+				}
+			} else { // print errors that came from server
+				Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
+			}
+			progressDialog.hide();
 		}
-		case R.id.signup_btn:
-		{
-			System.out.println("Signup");
-			intent = new Intent(this, SignupActivity.class);
-			startActivity(intent);
-			break;
+	}
+
+	public void onClickSignUpHere(View v) {
+		manageButtons(View.INVISIBLE, View.VISIBLE, false);
+	}
+	
+	public void onClickCancelSignUp(View v) {
+		manageButtons(View.VISIBLE, View.INVISIBLE, true);
+	}
+	
+	private void manageButtons(int signInVisibility, int signUpAndCancelVisibility, boolean signUpHereState) {
+		Button button;
+		
+		// sign in btn
+		if((button = (Button) findViewById(R.id.signin_btn)) != null) {
+			button.setVisibility(signInVisibility);
 		}
-		default:
-			break;
+		
+		// sign up here button
+		if((button = (Button) findViewById(R.id.signup_here_btn)) != null) {
+			button.setClickable(signUpHereState);
+		}
+		
+		// sign up and cancel buttons
+		if((button = (Button) findViewById(R.id.signup_btn)) != null) {
+			button.setVisibility(signUpAndCancelVisibility);
+		}
+		if((button = (Button) findViewById(R.id.cancel_signup_btn)) != null) {
+			button.setVisibility(signUpAndCancelVisibility);
 		}
 	}
 	
-	private void goToHomeScreen() {
-		startActivity(new Intent(this, HomeActivity.class));
+	private void goToHomeActivity() {
+		goHome(this);
 	}
 	
 	private void initializeMainScreen() {
-		login = (EditText) findViewById(R.id.signin_username);
+		username = (EditText) findViewById(R.id.signin_username);
 		password = (EditText)findViewById(R.id.signin_password);
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setCancelable(false);
@@ -147,8 +174,9 @@ public class MainScreenActivity extends Activity {
 	}
 	
 	private void showMainScreen() {
+		initializeMainScreen();
 		progressBar.setVisibility(View.INVISIBLE);
-		System.out.println("Showing main screen");
+		//System.out.println("Showing main screen");
 		
 		// making elements visible
 		EditText editText;
