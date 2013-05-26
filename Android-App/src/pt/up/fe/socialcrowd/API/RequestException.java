@@ -1,9 +1,7 @@
 package pt.up.fe.socialcrowd.API;
 
-public class RequestException extends Throwable {
-	/**
-	 * 
-	 */
+public class RequestException extends Exception {
+	
 	private static final long serialVersionUID = -2986727414090581254L;
 	private String message;
 

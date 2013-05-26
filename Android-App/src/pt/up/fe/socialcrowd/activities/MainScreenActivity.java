@@ -5,9 +5,7 @@ import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.definitions.Consts;
 import pt.up.fe.socialcrowd.definitions.QBQueries;
 import pt.up.fe.socialcrowd.managers.QBManager;
-import android.R.integer;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +17,6 @@ import com.quickblox.core.QBCallback;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.result.Result;
 import com.quickblox.module.auth.QBAuth;
-
 
 public class MainScreenActivity extends DashboardActivity {
 	
@@ -44,13 +41,8 @@ public class MainScreenActivity extends DashboardActivity {
         	@Override public void onComplete(Result result) {}
         	@Override
         	public void onComplete(Result result, Object context) {
-        		QBQueries qbQueryType = (QBQueries) context;
         		if (result.isSuccess()) {
-        			switch (qbQueryType) {
-        			case QB_QUERY_AUTHORIZE_APP:
-        				showMainScreen();
-        				break;
-        			}
+        			showMainScreen();
         		} else {
         			// print errors that came from server
         			Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
@@ -146,7 +138,6 @@ public class MainScreenActivity extends DashboardActivity {
 		if((button = (Button) findViewById(R.id.signin_btn)) != null) {
 			button.setVisibility(signInVisibility);
 		}
-		
 		// sign up here button
 		if((button = (Button) findViewById(R.id.signup_here_btn)) != null) {
 			button.setClickable(signUpHereState);
@@ -176,7 +167,6 @@ public class MainScreenActivity extends DashboardActivity {
 	private void showMainScreen() {
 		initializeMainScreen();
 		progressBar.setVisibility(View.INVISIBLE);
-		//System.out.println("Showing main screen");
 		
 		// making elements visible
 		EditText editText;

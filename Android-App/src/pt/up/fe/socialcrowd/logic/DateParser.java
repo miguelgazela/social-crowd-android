@@ -5,7 +5,9 @@ import java.util.Date;
 
 
 public abstract class DateParser {
-	public static final String DEFAULT_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+//	public static final String DEFAULT_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+	public static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	
 	public static Date parseString(String format, String date) throws ParseException {
 		SimpleDateFormat dateformat = new SimpleDateFormat(format);
 		return dateformat.parse(date);		

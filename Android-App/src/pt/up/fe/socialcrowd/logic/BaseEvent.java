@@ -57,28 +57,33 @@ public class BaseEvent {
 	}
 	public static BaseEvent parseJSON(JSONObject data) throws JSONException, RequestException, ParseException {
 		int type;
-		 String strtype = data.getString("type");
-		 if (strtype.equals("public"))
-			 type = BaseEvent.PUBLIC;
-		 else if (strtype.equals("private"))
-			 type = BaseEvent.PRIVATE;
-		 else if (strtype.equals("geolocated"))
-			 type = BaseEvent.GEOLOCATED;
-		 else
-			 throw new RequestException("invalid event type");
-		 
-		 JSONArray arraytags = data.getJSONArray("tags");
-		 ArrayList<String> tags = new ArrayList<String>();
-		 for (int i = 0; i < arraytags.length(); i++) {
-			 tags.add(arraytags.getString(i));
-		 }
-		 
-		 return new BaseEvent(type, data.getInt("id"), data.getInt("author_id"), data.getString("name"),
-				 data.getString("description"), DateParser.parseString(data.getString("start_date")), 
-				 DateParser.parseString(data.getString("end_date")), Location.parseJSON(data.getJSONObject("location")), 
-				 tags, data.getString("category"), data.getDouble("rating"));
+
+		System.out.println("EVENT: "+data.toString()); // TODO remove
+
+		// get event type
+		String eventType = data.getString("type");
+		if (eventType.equals("public"))
+			type = BaseEvent.PUBLIC;
+		else if (eventType.equals("private"))
+			type = BaseEvent.PRIVATE;
+		else if (eventType.equals("geolocated"))
+			type = BaseEvent.GEOLOCATED;
+		else
+			throw new RequestException("invalid event type");
+
+		// get tags associated with event
+		JSONArray arraytags = data.getJSONArray("tags");
+		ArrayList<String> tags = new ArrayList<String>();
+		for (int i = 0; i < arraytags.length(); i++) {
+			tags.add(arraytags.getString(i));
+		}
+
+		return new BaseEvent(type, data.getInt("id"), data.getInt("author_id"), data.getString("name"),
+				data.getString("description"), DateParser.parseString(data.getString("start_date")), 
+				DateParser.parseString(data.getString("end_date")), Location.parseJSON(data.getJSONObject("location")), 
+				tags, data.getString("category"), data.getDouble("rating"));
 	}
-	
+
 	/**
 	 * @return the type
 	 */

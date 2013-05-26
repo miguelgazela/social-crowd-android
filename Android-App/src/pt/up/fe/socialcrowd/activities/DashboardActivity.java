@@ -1,12 +1,17 @@
 package pt.up.fe.socialcrowd.activities;
 
+import com.quickblox.core.QBCallback;
+import com.quickblox.core.result.Result;
+
 import pt.up.fe.socialcrowd.R;
+import pt.up.fe.socialcrowd.managers.QBManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public abstract class DashboardActivity extends Activity {
 
@@ -80,7 +85,19 @@ public abstract class DashboardActivity extends Activity {
 			startActivity (new Intent(getApplicationContext(), SettingsActivity.class));
 			break;
 		case R.id.home_btn_logout :
-			// TODO logout
+			QBManager.signOutUser(new QBCallback() {
+				@Override
+				public void onComplete(Result result, Object context) {
+					if(result.isSuccess()) {
+//						goToMainScreen();
+						finish();
+					} else {
+						// print errors that came from server
+	        			Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
+					}
+				}
+				@Override public void onComplete(Result arg0) {}
+			});
 			break;
 		default: 
 			break;

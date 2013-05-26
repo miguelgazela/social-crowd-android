@@ -19,4 +19,8 @@ public class QBManager {
 		QBUser qbUser = new QBUser(login, password);
 		QBUsers.signIn(qbUser, callback, context);
 	}
+	
+	static public void signOutUser(QBCallback callback) {
+		QBUsers.signOut(callback, QBQueries.QB_QUERY_SIGN_OUT_USER);
+	}
 }

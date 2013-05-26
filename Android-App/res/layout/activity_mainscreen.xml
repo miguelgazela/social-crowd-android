@@ -39,6 +39,7 @@
             android:layout_marginTop="14dp"
             android:ems="10"
             android:hint="@string/password"
+            android:visibility="invisible"
             android:inputType="textPassword" />
         
         <EditText
@@ -49,7 +50,8 @@
             android:layout_marginTop="225dp"
             android:ems="10"
             android:hint="@string/username"
-            android:inputType="text" />
+            android:inputType="text"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/signin_btn"
@@ -58,7 +60,8 @@
             android:layout_below="@+id/signin_password"
             android:layout_marginTop="21dp"
             android:drawableTop="@drawable/sign_in_btn"
-            android:onClick="onClickSignIn" />
+            android:onClick="onClickSignIn"
+            android:visibility="invisible" />
         
         <Button
             android:id="@+id/signup_btn"
@@ -85,7 +88,7 @@
             android:layout_above="@+id/signup_here_btn"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="20dp"
-            android:drawableTop="@drawable/sign_up_btn"
+            android:drawableTop="@drawable/cancel_btn"
             android:onClick="onClickCancelSignUp"
             android:visibility="invisible" />
 

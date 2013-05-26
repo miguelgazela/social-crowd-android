@@ -30,6 +30,7 @@ public abstract class Request {
 	public static final int GET = 1;
 	public static final int PUT = 3;
 	public static final int DELETE = 4;
+	
 	private static final String API_ROOT_URL = "https://gnomo.fe.up.pt/~ei10043/slim/api";
 	private static final String API_SESSIONS_URL = API_ROOT_URL + "/sessions";
 	private static final String API_EVENTS_URL = API_ROOT_URL + "/events";
@@ -62,9 +63,10 @@ public abstract class Request {
 		if (type == GET && nameValuePairs != null) {
 			url = url + '?';
 			for (int i = 0; i < nameValuePairs.size(); i++) {
-				if (i != 0)
-					url = url + "&";
-				url = url + nameValuePairs.get(i).getName() + "=" + nameValuePairs.get(i).getValue();
+				if (i != 0) {
+					url += "&";
+				}
+				url += nameValuePairs.get(i).getName() + "=" + nameValuePairs.get(i).getValue();
 			}
 		}
 
@@ -94,18 +96,16 @@ public abstract class Request {
 				break;
 			}
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		if (response == null || response.getStatusLine().getStatusCode() != 200) 
+		if (response == null || response.getStatusLine().getStatusCode() != 200) {
 			throw new IllegalArgumentException();
+		}
 
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(response.getEntity().getContent()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 		String json = in.readLine();
 		return new JSONObject(json);
 	}
