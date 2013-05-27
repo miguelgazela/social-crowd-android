@@ -28,8 +28,6 @@ public class NewEventActivity extends DashboardActivity {
 				
 			}
 		});
-		
-		
 	}
 	
 	private void addEvent() {
@@ -38,7 +36,7 @@ public class NewEventActivity extends DashboardActivity {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-					Request.createSession("1");
+//					Request.createSession("1");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

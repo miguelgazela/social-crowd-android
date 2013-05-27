@@ -46,6 +46,24 @@ public class EventsListActivity extends DashboardActivity {
 
 	private void getUserEvents() {
 		Log.i("EventsListActivity - getUserEvents()", "Requesting user events");
+		
+		// getting stuff from the internet must be done in another thread
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				try {
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				insertContent();
+			}
+		}.execute();
 	}
 
 	private void getAllEvents() {
