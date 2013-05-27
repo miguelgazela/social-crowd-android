@@ -1,68 +1,170 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-   android:orientation="vertical"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background_blue"
     tools:context=".NewEventActivity" >
 
+    
     <LinearLayout style="@style/TitleBar" >
 
         <ImageButton
             style="@style/TitleBarAction"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/title_activity_home"
             android:onClick="onClickHome"
             android:src="@drawable/title_home" />
 
         <ImageView style="@style/TitleBarSeparator" />
-
-        <TextView style="@style/TitleBarText" />
+        <TextView style="@style/TitleBarText"/>
 
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_about"
             android:onClick="onClickAbout"
-            android:src="@drawable/title_about" />
+            android:src="@drawable/title_about"/>
 
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_search"
             android:onClick="onClickSearch"
-            android:src="@drawable/title_search" />
+            android:src="@drawable/title_search"/>
     </LinearLayout>
-    
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/event_description"
-            android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/event_name"
-            android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:inputType="textMultiLine" />
-        
-        <EditText
-            android:id="@+id/event_name"
-            android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-        <EditText
-            android:id="@+id/editText1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/event_description"
-            android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:inputType="date" />
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical" >
 
-    </RelativeLayout>
+	        <RelativeLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="90dp" 
+	            android:layout_marginTop="10dp">
+	            
+	             <EditText
+	                android:id="@+id/event_name"
+	                android:layout_width="250dp"
+	                android:layout_height="wrap_content"
+	                android:layout_centerHorizontal="true"
+	                android:layout_centerVertical="true"
+	                android:ems="10"
+	                android:inputType="text" >
+
+	                <requestFocus />
+	            </EditText>
+
+	             <TextView
+	                 android:id="@+id/name_label"
+	                 android:layout_width="wrap_content"
+	                 android:layout_height="wrap_content"
+	                 android:layout_above="@+id/event_name"
+	                 android:layout_alignLeft="@+id/event_name"
+	                 android:text="Event Name"
+	                 android:textSize="@dimen/text_size_medium" />
+	            
+	        </RelativeLayout>
+
+	        <RelativeLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="90dp" 
+	            android:layout_marginTop="10dp" >
+
+	            
+	           	<EditText
+	                android:id="@+id/event_category"
+	                android:layout_width="250dp"
+	                android:layout_height="wrap_content"
+	                android:layout_centerHorizontal="true"
+	                android:layout_centerVertical="true"
+	                android:ems="10"
+	                android:inputType="text" />
+
+	           	<TextView
+	           	    android:id="@+id/category_label"
+	           	    android:layout_width="wrap_content"
+	           	    android:layout_height="wrap_content"
+	           	    android:layout_above="@+id/event_category"
+	           	    android:layout_alignLeft="@+id/event_category"
+	           	    android:text="Event Category"
+	           	    android:textSize="@dimen/text_size_medium" />
+
+	        </RelativeLayout>
+
+	         <RelativeLayout
+	             android:layout_width="match_parent"
+	             android:layout_height="90dp" 
+	             android:layout_marginTop="10dp" >
+	            
+	             <EditText
+	                 android:id="@+id/event_description"
+	                 android:layout_width="250dp"
+	                 android:layout_height="wrap_content"
+	                 android:layout_centerHorizontal="true"
+	                 android:layout_centerVertical="true"
+	                 android:ems="10"
+	                 android:inputType="textMultiLine" />
+
+	             <TextView
+	                 android:id="@+id/description_label"
+	                 android:layout_width="wrap_content"
+	                 android:layout_height="wrap_content"
+	                 android:layout_alignLeft="@+id/event_description"
+	                 android:layout_alignParentTop="true"
+	                 android:text="Event Description"
+	                 android:textSize="@dimen/text_size_medium" />
+
+	         </RelativeLayout>
+
+	         <RelativeLayout
+	             android:layout_width="match_parent"
+	             android:layout_height="wrap_content" >
+
+	             <DatePicker
+	                 android:id="@+id/datePicker1"
+	                 android:layout_width="wrap_content"
+	                 android:layout_height="wrap_content"
+	                 android:layout_alignParentLeft="true"
+	                 android:layout_alignParentTop="true" />
+
+	         </RelativeLayout>
+
+	         <RelativeLayout
+	             android:layout_width="match_parent"
+	             android:layout_height="wrap_content" >
+
+	             <RadioButton
+	                 android:id="@+id/radioButton1"
+	                 android:layout_width="wrap_content"
+	                 android:layout_height="wrap_content"
+	                 android:text="RadioButton" />
+
+	             <RadioButton
+	                 android:id="@+id/radioButton2"
+	                 android:layout_width="wrap_content"
+	                 android:layout_height="wrap_content"
+	                 android:text="RadioButton" />
+
+	             <RadioButton
+	                 android:id="@+id/radioButton3"
+	                 android:layout_width="wrap_content"
+	                 android:layout_height="wrap_content"
+	                 android:text="RadioButton" />
+
+	         </RelativeLayout>
+
+	         <Button
+	             android:id="@+id/new_event_submit_button"
+	             android:layout_width="match_parent"
+	             android:layout_height="wrap_content"
+	             android:text="Submit" />
+
+	    </LinearLayout>
+
+	</ScrollView>
 
 </LinearLayout>

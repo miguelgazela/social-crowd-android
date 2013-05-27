@@ -5,15 +5,31 @@ import pt.up.fe.socialcrowd.API.Request;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class NewEventActivity extends DashboardActivity {
 
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event);
 		setTitleFromActivityLabel(R.id.title_text);
-		addEvent(); // TODO REMOVE
+		
+		Button submit = (Button) findViewById(R.id.new_event_submit_button);
+		submit.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				addEvent();
+				
+			}
+		});
+		
+		
 	}
 	
 	private void addEvent() {
