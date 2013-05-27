@@ -1,69 +1,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-   android:orientation="vertical"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background_blue"
     tools:context=".NewEventActivity" >
 
     <LinearLayout style="@style/TitleBar" >
-
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_home"
             android:onClick="onClickHome"
-            android:src="@drawable/title_home" />
+            android:src="@drawable/title_home"/>
 
         <ImageView style="@style/TitleBarSeparator" />
-
-        <TextView style="@style/TitleBarText" />
+        <TextView style="@style/TitleBarText"/>
 
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_about"
             android:onClick="onClickAbout"
-            android:src="@drawable/title_about" />
+            android:src="@drawable/title_about"/>
 
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_search"
             android:onClick="onClickSearch"
-            android:src="@drawable/title_search" />
+            android:src="@drawable/title_search"/>
     </LinearLayout>
+    
     
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
-
-        <EditText
-            android:id="@+id/event_description"
-            android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/event_name"
-            android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:inputType="textMultiLine" />
-        
+          
         <EditText
             android:id="@+id/event_name"
             android:layout_width="245dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:=""
+            android:layout_marginTop="30dp"
+          	android:inputType="text"
             android:ems="10"
-            android:hint="" />
-
+            android:hint="" /> 
         <EditText
-            android:id="@+id/editText1"
-            android:layout_width="wrap_content"
+            android:id="@+id/event_category"
+            android:layout_width="245dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_description"
-            android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:inputType="date" />
-
+            android:layout_alignLeft="@id/event_name"
+            android:layout_below="@id/event_name"
+            android:layout_marginTop="15dp"
+         	android:inputType="text" 
+            android:ems="10"/>
+        <EditText
+            android:id="@+id/event_description"
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/event_name"
+            android:layout_below="@id/event_category"
+            android:layout_marginTop="15dp"
+            android:inputType="textMultiLine" 
+            android:ems="10"> 
+            <requestFocus />
+        </EditText>
     </RelativeLayout>
 
 </LinearLayout>
