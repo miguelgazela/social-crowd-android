@@ -57,8 +57,14 @@ public abstract class Request {
 			e.printStackTrace();
 		}
 	}*/
+	
+	private static List<NameValuePair> createSessionHeader(String sid) {
+		List<NameValuePair> l = new ArrayList<NameValuePair>();
+		l.add(new BasicNameValuePair("SESSION_ID",sid));
+		return l;
+	}
 
-	private static JSONObject doRequest(String url, int type, List<NameValuePair> nameValuePairs) throws InvalidParameterException, IllegalStateException, IOException, JSONException {
+	private static JSONObject doRequest(String url, int type, List<NameValuePair> nameValuePairs, List<NameValuePair> headers) throws InvalidParameterException, IllegalStateException, IOException, JSONException {
 		System.out.println("HERE1"); // TODO remove
 		HttpClient httpclient = new DefaultHttpClient();
 		if (type == GET && nameValuePairs != null) {
@@ -79,20 +85,40 @@ public abstract class Request {
 				HttpPost httppost = new HttpPost(url);
 				if (nameValuePairs != null && !nameValuePairs.isEmpty())
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				if (headers != null && !headers.isEmpty()) {
+					for (int i = 0; i < headers.size(); i++) {
+						httppost.addHeader(headers.get(i).getName(),headers.get(i).getValue());
+					}
+				}
 				response = httpclient.execute(httppost);
 				break;
 			case GET:
 				HttpGet httpget = new HttpGet(url);
+				if (headers != null && !headers.isEmpty()) {
+					for (int i = 0; i < headers.size(); i++) {
+						httpget.addHeader(headers.get(i).getName(),headers.get(i).getValue());
+					}
+				}
 				response = httpclient.execute(httpget);
 				break;
 			case DELETE:
 				HttpDelete httpdelete = new HttpDelete(url);
+				if (headers != null && !headers.isEmpty()) {
+					for (int i = 0; i < headers.size(); i++) {
+						httpdelete.addHeader(headers.get(i).getName(),headers.get(i).getValue());
+					}
+				}
 				response = httpclient.execute(httpdelete);
 				break;
 			case PUT:
 				HttpPut httpput = new HttpPut(url);
 				if (nameValuePairs != null && !nameValuePairs.isEmpty())
 					httpput.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				if (headers != null && !headers.isEmpty()) {
+					for (int i = 0; i < headers.size(); i++) {
+						httpput.addHeader(headers.get(i).getName(),headers.get(i).getValue());
+					}
+				}
 				response = httpclient.execute(httpput);
 				break;
 			}
@@ -111,15 +137,15 @@ public abstract class Request {
 		return new JSONObject(json);
 	}
 
-	public static Session createSession(String userid) throws IllegalStateException, IOException, JSONException, RequestException {
-		System.out.println("HERE2");
+	public static Session createSession(String token, String login, String password) throws IllegalStateException, IOException, JSONException, RequestException {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("id",userid));
+		l.add(new BasicNameValuePair("login",login));
+		l.add(new BasicNameValuePair("password",password));
+		List<NameValuePair> tokenl = new ArrayList<NameValuePair>();
+		tokenl.add(new BasicNameValuePair("Token",token));
 
-		JSONObject object = doRequest(API_SESSIONS_URL,POST,l);
-		
-		System.out.println("SESSION: "+object); // TODO REMOVE
-		
+		JSONObject object = doRequest(API_SESSIONS_URL,POST,l,tokenl);
+
 		String result = object.getString("result");
 		if (result.equals("success")) {
 			JSONObject data = object.getJSONObject("data");
@@ -131,7 +157,7 @@ public abstract class Request {
 	}
 
 	public static void deleteSession(String session_id) throws JSONException, RequestException, InvalidParameterException, IllegalStateException, IOException {
-		JSONObject object = doRequest(API_SESSIONS_URL + "/" + session_id,DELETE,null);
+		JSONObject object = doRequest(API_SESSIONS_URL + "/" + session_id,DELETE,null,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (!result.equals("success"))
@@ -139,7 +165,7 @@ public abstract class Request {
 	}
 
 	public static DetailedEvent getEventByID(int eventid) throws JSONException, IllegalStateException, IOException, RequestException, ParseException {		
-		JSONObject object = doRequest(API_EVENTS_URL + "/" + Integer.toString(eventid),GET,null);
+		JSONObject object = doRequest(API_EVENTS_URL + "/" + Integer.toString(eventid),GET,null,null);
 		String result = object.getString("result");
 		if (result.equals("success")) {
 			return DetailedEvent.parseJSON(object.getJSONObject("data"));			 
@@ -149,7 +175,7 @@ public abstract class Request {
 	}
 
 	public static ArrayList<BaseEvent> getEvents() throws IllegalStateException, IOException, JSONException, RequestException, ParseException {
-		JSONObject object = doRequest(API_EVENTS_URL,GET,null);
+		JSONObject object = doRequest(API_EVENTS_URL,GET,null,null);
 
 		String result = object.getString("result");
 		if (result.equals("success")) {
@@ -167,7 +193,6 @@ public abstract class Request {
 	public static DetailedEvent createEvent(String session_id, int type, String name, String description, 
 			Date start_date, Date end_date, Location location, ArrayList<String> tags, String category) throws RequestException, InvalidParameterException, IllegalStateException, IOException, JSONException, ParseException {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
 		l.add(new BasicNameValuePair("name",name));
 		l.add(new BasicNameValuePair("description",description));
 		l.add(new BasicNameValuePair("category",description));
@@ -184,7 +209,7 @@ public abstract class Request {
 		else
 			throw new RequestException("invalid event type");
 
-		JSONObject object = doRequest(API_EVENTS_URL,POST,l);
+		JSONObject object = doRequest(API_EVENTS_URL,POST,l,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (result.equals("success")) {
@@ -195,9 +220,7 @@ public abstract class Request {
 	}
 
 	public static void deleteEvent(String session_id, int eventid) throws JSONException, RequestException, InvalidParameterException, IllegalStateException, IOException {
-		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
-		JSONObject object = doRequest(API_EVENTS_URL + "/" + eventid,DELETE,l);
+		JSONObject object = doRequest(API_EVENTS_URL + "/" + eventid,DELETE,null,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (!result.equals("success"))
@@ -206,12 +229,11 @@ public abstract class Request {
 
 	public static Comment createComment(String session_id, int eventid, String text, Date date) throws JSONException, ParseException, InvalidParameterException, IllegalStateException, IOException, RequestException {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
 		l.add(new BasicNameValuePair("eventid",Integer.toString(eventid)));
 		l.add(new BasicNameValuePair("input",text));
 		l.add(new BasicNameValuePair("created_at",DateParser.parseDate(date)));
 
-		JSONObject object = doRequest(API_COMMENTS_URL,POST,l);
+		JSONObject object = doRequest(API_COMMENTS_URL,POST,l,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (result.equals("success")) {
@@ -223,10 +245,9 @@ public abstract class Request {
 
 	public static Comment editComment(String session_id, int id, String text) throws JSONException, ParseException, InvalidParameterException, IllegalStateException, IOException, RequestException {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
 		l.add(new BasicNameValuePair("input",text));
 
-		JSONObject object = doRequest(API_COMMENTS_URL + "/" + Integer.toString(id),PUT,l);
+		JSONObject object = doRequest(API_COMMENTS_URL + "/" + Integer.toString(id),PUT,l,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (result.equals("success")) {
@@ -237,10 +258,7 @@ public abstract class Request {
 	}
 
 	public static void deleteComment(String session_id, int id) throws JSONException, RequestException, InvalidParameterException, IllegalStateException, IOException {
-		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
-
-		JSONObject object = doRequest(API_COMMENTS_URL + "/" + Integer.toString(id),DELETE,l);
+		JSONObject object = doRequest(API_COMMENTS_URL + "/" + Integer.toString(id),DELETE,null,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (!result.equals("success"))
@@ -250,7 +268,6 @@ public abstract class Request {
 	public static Vote createVote(String session_id, int comment_id, int type) throws JSONException, InvalidParameterException, IllegalStateException, IOException, RequestException {
 
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
 		l.add(new BasicNameValuePair("comment",Integer.toString(comment_id)));
 		
 		if (type == Vote.UPVOTE)
@@ -260,7 +277,7 @@ public abstract class Request {
 		else
 			throw new RequestException("invalid type");
 
-		JSONObject object = doRequest(API_VOTES_URL,POST,l);
+		JSONObject object = doRequest(API_VOTES_URL,POST,l,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (result.equals("success")) {
@@ -274,10 +291,7 @@ public abstract class Request {
 	}
 	
 	public static void deleteVote(String session_id, int id) throws JSONException, RequestException, InvalidParameterException, IllegalStateException, IOException {
-		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
-
-		JSONObject object = doRequest(API_VOTES_URL + "/" + Integer.toString(id),DELETE,l);
+		JSONObject object = doRequest(API_VOTES_URL + "/" + Integer.toString(id),DELETE,null,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (!result.equals("success"))
@@ -286,10 +300,9 @@ public abstract class Request {
 	
 	public static Rating createRating(String session_id, int eventid, int value) throws InvalidParameterException, IllegalStateException, IOException, JSONException, RequestException {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
 		l.add(new BasicNameValuePair("eventid",Integer.toString(eventid)));
 		
-		JSONObject object = doRequest(API_RATINGS_URL,POST,l);
+		JSONObject object = doRequest(API_RATINGS_URL,POST,l,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (result.equals("success")) {
@@ -300,10 +313,8 @@ public abstract class Request {
 	}
 	
 	public static void deleteRating(String session_id, int id) throws InvalidParameterException, IllegalStateException, IOException, JSONException, RequestException {
-		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
 
-		JSONObject object = doRequest(API_RATINGS_URL + "/" + Integer.toString(id),DELETE,l);
+		JSONObject object = doRequest(API_RATINGS_URL + "/" + Integer.toString(id),DELETE,null,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (!result.equals("success"))
@@ -312,12 +323,11 @@ public abstract class Request {
 
 	public static Subscription createSubscription(String session_id, int eventid, int user_id, Date created_at) throws InvalidParameterException, IllegalStateException, IOException, JSONException, RequestException, ParseException {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
 		l.add(new BasicNameValuePair("eventid",Integer.toString(eventid)));
 		l.add(new BasicNameValuePair("user_id",Integer.toString(user_id)));
 		l.add(new BasicNameValuePair("created_at",DateParser.parseDate(created_at)));
 		
-		JSONObject object = doRequest(API_SUBSCRIPTIONS_URL,POST,l);
+		JSONObject object = doRequest(API_SUBSCRIPTIONS_URL,POST,l,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (result.equals("success")) {
@@ -328,10 +338,8 @@ public abstract class Request {
 	}
 	
 	public static void deleteSubscription(String session_id, int id) throws InvalidParameterException, IllegalStateException, IOException, JSONException, RequestException {
-		List<NameValuePair> l = new ArrayList<NameValuePair>();
-		l.add(new BasicNameValuePair("session_id",session_id));
 
-		JSONObject object = doRequest(API_SUBSCRIPTIONS_URL + "/" + Integer.toString(id),DELETE,l);
+		JSONObject object = doRequest(API_SUBSCRIPTIONS_URL + "/" + Integer.toString(id),DELETE,null,createSessionHeader(session_id));
 
 		String result = object.getString("result");
 		if (!result.equals("success"))
