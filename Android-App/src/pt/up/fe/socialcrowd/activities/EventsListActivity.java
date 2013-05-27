@@ -4,24 +4,20 @@ import java.util.ArrayList;
 
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
+import pt.up.fe.socialcrowd.helpers.EventsListAdapter;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
-import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class EventsListActivity extends DashboardActivity {
 
-	private ListView eventsListView;
 	private ArrayList<BaseEvent> events = null;
 	
 	@Override
@@ -75,66 +71,20 @@ public class EventsListActivity extends DashboardActivity {
 	}
 	
 	private void insertContent() {
-		
 		final ListView eventsList = (ListView) findViewById(R.id.eventsList);
-		eventsList.setAdapter(new EventsListAdapter(this));
+		eventsList.setAdapter(new EventsListAdapter(this, events));
 		eventsList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 		    public void onItemClick(AdapterView<?> a, View v, int pos, long id) {
 		        Object obj = eventsList.getItemAtPosition(pos);
 		        BaseEvent event = (BaseEvent) obj;
-		        Toast.makeText(EventsListActivity.this, "Selected :" + " " + event, Toast.LENGTH_LONG).show();
-		    }
-		});
-	}
-	
-	private class EventsListAdapter extends BaseAdapter {
 
-		private LayoutInflater layoutInflater;
-		
-		public EventsListAdapter(Context context) {
-			layoutInflater = LayoutInflater.from(context);
-		}
-		
-		@Override
-		public int getCount() {
-			return events.size();
-		}
-
-		@Override
-		public Object getItem(int pos) {
-			return events.get(pos);
-		}
-
-		@Override
-		public long getItemId(int pos) {
-			return pos;
-		}
-		
-		@Override
-		public View getView(int pos, View convertView, ViewGroup parent) {
-			ViewHolder holder;
-			
-			if(convertView == null) {
-				convertView = layoutInflater.inflate(R.layout.event_list_row, null);
-				holder = new ViewHolder();
-				holder.eventName = (TextView) convertView.findViewById(R.id.event_name);
-				holder.eventDescription = (TextView) convertView.findViewById(R.id.event_description);
-				holder.eventCategory = (TextView) convertView.findViewById(R.id.event_category);
-				convertView.setTag(holder);
-			} else {
-				holder = (ViewHolder) convertView.getTag();
+		        // Launching new Activity on selecting single List Item
+		        Intent intent = new Intent(getApplicationContext(), EventActivity.class);
+		        // sending event id to new activity
+		        intent.putExtra("event_id", event.getId());
+		        startActivity(intent);
 			}
-			
-			holder.eventName.setText(events.get(pos).getName());
-			holder.eventDescription.setText(events.get(pos).getDescription());
-			holder.eventCategory.setText(events.get(pos).getCategory());
-			
-			return convertView;
-		}
-	}
-	
-	private static class ViewHolder {
-		TextView eventName, eventDescription, eventCategory;
+		});
 	}
 }

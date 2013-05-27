@@ -4,9 +4,12 @@ package pt.up.fe.socialcrowd.activities;
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.definitions.Consts;
 import pt.up.fe.socialcrowd.definitions.QBQueries;
+import pt.up.fe.socialcrowd.managers.DataHolder;
 import pt.up.fe.socialcrowd.managers.QBManager;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,13 +20,14 @@ import com.quickblox.core.QBCallback;
 import com.quickblox.core.QBSettings;
 import com.quickblox.core.result.Result;
 import com.quickblox.module.auth.QBAuth;
+import com.quickblox.module.users.result.QBUserResult;
 
 public class MainScreenActivity extends DashboardActivity {
 	
 	private ProgressBar progressBar;
 	private EditText username, password;
 	private ProgressDialog progressDialog;
-
+	
 	@Override
     public void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
@@ -32,34 +36,77 @@ public class MainScreenActivity extends DashboardActivity {
         // show progress bar while creating session for QB
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
+        Button btn = (Button)findViewById(R.id.signup_here_btn);
+		if(btn != null) {
+			btn.setClickable(false);
+		}
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// Initialize QuickBlox application with credentials.
+				QBSettings.getInstance().fastConfigInit(Consts.APP_ID, Consts.AUTH_KEY, Consts.AUTH_SECRET);
+				
+				// Authorize application
+				
+				QBAuth.createSession(new QBCallback() {
+					@Override public void onComplete(Result result) {}
+					@Override
+					public void onComplete(Result result, Object context) {
+						if (result.isSuccess()) {
+							Button btn = (Button)findViewById(R.id.signup_here_btn);
+							if(btn != null) {
+								btn.setClickable(true);
+							}
+							System.out.println("DONE!");
+//							showMainScreen();
+						} else {
+							// print errors that came from server
+//							Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
+//							progressBar.setVisibility(View.INVISIBLE);
+						}
 
-        // Initialize QuickBlox application with credentials.
-        QBSettings.getInstance().fastConfigInit(Consts.APP_ID, Consts.AUTH_KEY, Consts.AUTH_SECRET);
-
-        // Authorize application
-        QBAuth.createSession(new QBCallback() {
-        	@Override public void onComplete(Result result) {}
-        	@Override
-        	public void onComplete(Result result, Object context) {
-        		if (result.isSuccess()) {
-        			showMainScreen();
-        		} else {
-        			// print errors that came from server
-        			Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
-        			progressBar.setVisibility(View.INVISIBLE);
-        		}
-        	}
-        }, QBQueries.QB_QUERY_AUTHORIZE_APP);
+					}
+				}, QBQueries.QB_QUERY_AUTHORIZE_APP);
+			}
+		}).start();
+        
+//        new AsyncTask<Void, Void, Void>() {
+//
+//			@Override
+//			protected Void doInBackground(Void... params) {
+//
+//				// Initialize QuickBlox application with credentials.
+//				QBSettings.getInstance().fastConfigInit(Consts.APP_ID, Consts.AUTH_KEY, Consts.AUTH_SECRET);
+//				
+//				// Authorize application
+//				
+//				QBAuth.createSession(new QBCallback() {
+//					@Override public void onComplete(Result result) {}
+//					@Override
+//					public void onComplete(Result result, Object context) {
+//						if (result.isSuccess()) {
+//							Button btn = (Button)findViewById(R.id.signup_here_btn);
+//							if(btn != null) {
+//								btn.setClickable(true);
+//							}
+//							showMainScreen();
+//						} else {
+//							// print errors that came from server
+//							Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
+//							progressBar.setVisibility(View.INVISIBLE);
+//						}
+//
+//					}
+//				}, QBQueries.QB_QUERY_AUTHORIZE_APP);
+//				return null;
+//			}
+//		}.execute();
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		// destroy session after app close
-		QBAuth.deleteSession(new QBCallback() {
-			@Override public void onComplete(Result arg0, Object arg1) {}
-			@Override public void onComplete(Result arg0) {}
-		});
 	}
 	
 	public void onClickSignIn(View v) {
@@ -69,7 +116,6 @@ public class MainScreenActivity extends DashboardActivity {
 
 	public void onClickSignUp(View v) {
 		progressDialog.show();
-		// call QB Signup query
 		QBManager.signUpUser(username.getText().toString(), password.getText().toString(), new QBCallback() {
 
 			@Override 
@@ -79,7 +125,6 @@ public class MainScreenActivity extends DashboardActivity {
 				if (result.isSuccess()) {
 					switch (qbQueryType) {
 					case QB_QUERY_SIGN_UP_USER:
-//						System.out.println(result);
 						QBManager.signInUser(username.getText().toString(), password.getText().toString(), new SignInQBCallBack(), QBQueries.QB_QUERY_SIGN_IN_USER);
 						break;
 					default:
@@ -109,9 +154,11 @@ public class MainScreenActivity extends DashboardActivity {
 				switch (qbQueryType) {
 				case QB_QUERY_SIGN_IN_USER:
 					setResult(RESULT_OK);
-					//QBUserResult qbUserResult = (QBUserResult) result;
+					QBUserResult qbUserResult = (QBUserResult) result;
+					DataHolder.setSignInQbUser(qbUserResult.getUser());
 					Toast.makeText(getBaseContext(), getResources().getString(R.string.user_successfully_sign_in), Toast.LENGTH_LONG).show();
 					goToHomeActivity();
+					finish(); // TODO try this
 					break;
 				default:
 					break;
