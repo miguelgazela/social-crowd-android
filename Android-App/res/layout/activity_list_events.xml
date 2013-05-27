@@ -28,10 +28,12 @@
             android:onClick="onClickSearch"
             android:src="@drawable/title_search" />
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_activity_events_list" />
+    
+    <ListView
+        android:id="@+id/eventsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+    </ListView>
 
 </LinearLayout>

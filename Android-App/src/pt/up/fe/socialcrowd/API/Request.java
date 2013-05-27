@@ -59,9 +59,10 @@ public abstract class Request {
 	}*/
 
 	private static JSONObject doRequest(String url, int type, List<NameValuePair> nameValuePairs) throws InvalidParameterException, IllegalStateException, IOException, JSONException {
+		System.out.println("HERE1"); // TODO remove
 		HttpClient httpclient = new DefaultHttpClient();
 		if (type == GET && nameValuePairs != null) {
-			url = url + '?';
+			url += '?';
 			for (int i = 0; i < nameValuePairs.size(); i++) {
 				if (i != 0) {
 					url += "&";
@@ -111,17 +112,22 @@ public abstract class Request {
 	}
 
 	public static Session createSession(String userid) throws IllegalStateException, IOException, JSONException, RequestException {
+		System.out.println("HERE2");
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
 		l.add(new BasicNameValuePair("id",userid));
 
 		JSONObject object = doRequest(API_SESSIONS_URL,POST,l);
+		
+		System.out.println("SESSION: "+object); // TODO REMOVE
+		
 		String result = object.getString("result");
 		if (result.equals("success")) {
 			JSONObject data = object.getJSONObject("data");
 			return new Session(data.getString("sid"));
 		}
-		else
+		else {
 			throw new RequestException(object.getString("data"));
+		}
 	}
 
 	public static void deleteSession(String session_id) throws JSONException, RequestException, InvalidParameterException, IllegalStateException, IOException {
