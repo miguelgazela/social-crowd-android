@@ -27,7 +27,8 @@ public class EventsListActivity extends DashboardActivity {
 		setTitleFromActivityLabel(R.id.title_text);
 		
 		
-		if(getIntent().getBundleExtra("search_query") != null){
+		
+		if(getIntent().getStringExtra("search_query") != null){
 			//TODO do search request, display results
 		}
 			

@@ -49,10 +49,10 @@ public class SearchActivity extends DashboardActivity {
 	private void search(String parameters) {
 		
 
-		if(parameters != null){
+		if(parameters != ""){
 			Intent i = new Intent(getApplicationContext(), EventsListActivity.class);
 			i.putExtra("search_query", parameters);
-			
+			i.putExtra("LIST_TYPE", DashboardActivity.LIST_EVENTS);
 			startActivity(i);
 		}
 	}
