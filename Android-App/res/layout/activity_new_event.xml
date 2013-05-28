@@ -65,6 +65,7 @@
 	                 android:layout_above="@+id/event_name"
 	                 android:layout_alignLeft="@+id/event_name"
 	                 android:text="Event Name"
+	                 android:textColor="@color/foreground1"
 	                 android:textSize="@dimen/text_size_medium" />
 	            
 	        </RelativeLayout>
@@ -91,6 +92,7 @@
 	           	    android:layout_above="@+id/event_category"
 	           	    android:layout_alignLeft="@+id/event_category"
 	           	    android:text="Event Category"
+	           	    android:textColor="@color/foreground1"
 	           	    android:textSize="@dimen/text_size_medium" />
 
 	        </RelativeLayout>
@@ -116,6 +118,7 @@
 	                 android:layout_alignLeft="@+id/event_description"
 	                 android:layout_alignParentTop="true"
 	                 android:text="Event Description"
+	                 android:textColor="@color/foreground1"
 	                 android:textSize="@dimen/text_size_medium" />
 
 	         </RelativeLayout>
@@ -141,6 +144,7 @@
 	                 android:layout_alignLeft="@+id/tags_field"
 	                 android:layout_alignParentTop="true"
 	                 android:text="Tags"
+	                 android:textColor="@color/foreground1"
 	                 android:textSize="@dimen/text_size_medium" />
 
 	         </RelativeLayout>
