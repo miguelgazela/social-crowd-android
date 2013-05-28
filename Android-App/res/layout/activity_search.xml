@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     tools:context=".SearchActivity" >
     
     <LinearLayout style="@style/TitleBar" >
@@ -29,10 +29,55 @@
             android:onClick="onClickSearch"
             android:src="@drawable/title_search" />
     </LinearLayout>
+ 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_blue" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_activity_search" />
+        <EditText
+            android:id="@+id/search_input_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="81dp"
+            android:ems="10" >
+
+            <requestFocus />
+        </EditText>
+
+        <Spinner
+            android:id="@+id/search_option_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/search_input_field"
+            android:layout_alignRight="@+id/search_input_field"
+            android:layout_below="@+id/search_input_field"
+            android:layout_marginTop="19dp" />
+
+        <TextView
+            android:id="@+id/search_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/search_input_field"
+            android:layout_alignLeft="@+id/search_input_field"
+            android:layout_marginBottom="50dp"
+            android:text="Search..."
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/search_submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_alignLeft="@+id/search_option_menu"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/search_option_menu"
+            android:layout_marginBottom="54dp"
+            android:text="Go!" />
+
+    </RelativeLayout>
+    
+  
 
 </LinearLayout>

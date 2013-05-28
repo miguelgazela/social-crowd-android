@@ -33,8 +33,8 @@ public class EventsListActivity extends DashboardActivity {
 		progressDialog.setCancelable(false);
 		progressDialog.setMessage(getResources().getString(R.string.please_wait));
 		progressDialog.show();
-		
-		// check what kind 
+			
+		// check what kind of listing we want
 		listingType = getIntent().getStringExtra("LIST_TYPE");
 		
 		if(listingType.equalsIgnoreCase(DashboardActivity.LIST_EVENTS)) {
@@ -43,8 +43,10 @@ public class EventsListActivity extends DashboardActivity {
 			getUserEvents();
 		} else if(listingType.equalsIgnoreCase(DashboardActivity.LIST_SUBSCRIPTIONS)) {
 			getUserSubscriptions();
+		} else if(listingType.equalsIgnoreCase("search_query")) {
+			//TODO do search request, display results
 		} else {
-			// TODO show some default events ?
+			// TODO ?
 		}
 	}
 	

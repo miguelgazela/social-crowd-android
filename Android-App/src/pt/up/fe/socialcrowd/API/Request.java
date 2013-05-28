@@ -178,8 +178,14 @@ public abstract class Request {
 		l.add(new BasicNameValuePair("category",category));
 		l.add(new BasicNameValuePair("start_date",DateParser.parseDate(start_date)));
 		l.add(new BasicNameValuePair("end_date",DateParser.parseDate(end_date)));
+		JSONObject locationobj = new JSONObject();
+		locationobj.put("name", location.getText());
+		locationobj.put("gps", location.getGps());
+		l.add(new BasicNameValuePair("location",locationobj.toString()));
 		JSONArray arraytags = new JSONArray(tags);
-		l.add(new BasicNameValuePair("tags",arraytags.toString()));
+		JSONObject objtags = new JSONObject();
+		objtags.put("tags", arraytags);
+		l.add(new BasicNameValuePair("tags",objtags.toString()));
 		if (type == BaseEvent.PUBLIC)
 			l.add(new BasicNameValuePair("type","public"));
 		else if (type == BaseEvent.PRIVATE)
@@ -368,7 +374,9 @@ public abstract class Request {
 			l.add(new BasicNameValuePair("owner_id",ownerid.toString()));
 		if (tags != null && !tags.isEmpty()) {
 			JSONArray arraytags = new JSONArray(tags);
-			l.add(new BasicNameValuePair("tags",arraytags.toString()));
+			JSONObject objtags = new JSONObject();
+			objtags.put("tags", arraytags);
+			l.add(new BasicNameValuePair("tags",objtags.toString()));
 		}
 		if (type != null) {
 			int typ = type.intValue();

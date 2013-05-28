@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.quickblox.module.auth.QBAuth;
+
 public class NewEventActivity extends DashboardActivity {
 
 	
@@ -86,7 +88,6 @@ public class NewEventActivity extends DashboardActivity {
 						endDatePicker.getDayOfMonth());
 				Date end = gc.getTime();
 
-
 				Log.i("eventType", type);
 				Log.i("tags", singleLineTags);
 				Log.i("name", name);
@@ -95,11 +96,8 @@ public class NewEventActivity extends DashboardActivity {
 				Log.i("IniDate", ini.toString());
 				Log.i("endDate", end.toString());
 
-
 				try {
-					Request.createEvent(
-							"dummy_id", eventType, name, description,
-							ini, end, null, tags, category);
+					Request.createEvent(QBAuth.getBaseService().getToken(), eventType, name, description, ini, end, null, tags, category);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

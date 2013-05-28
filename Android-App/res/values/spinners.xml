@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <string-array name="search_options_array">
+        <item>Name</item>
+        <item>Category</item>
+        <item>Tag</item>
+        <item>Date</item>
+    </string-array>
+</resources>
