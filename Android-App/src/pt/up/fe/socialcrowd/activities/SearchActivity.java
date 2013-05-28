@@ -1,6 +1,7 @@
 package pt.up.fe.socialcrowd.activities;
 
 import pt.up.fe.socialcrowd.R;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,7 +50,10 @@ public class SearchActivity extends DashboardActivity {
 		
 
 		if(parameters != null){
+			Intent i = new Intent(getApplicationContext(), EventsListActivity.class);
+			i.putExtra("search_query", parameters);
 			
+			startActivity(i);
 		}
 	}
 }

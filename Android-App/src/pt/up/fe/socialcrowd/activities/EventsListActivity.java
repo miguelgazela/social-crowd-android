@@ -26,6 +26,13 @@ public class EventsListActivity extends DashboardActivity {
 		setContentView(R.layout.activity_list_events);
 		setTitleFromActivityLabel(R.id.title_text);
 		
+		
+		if(getIntent().getBundleExtra("search_query") != null){
+			//TODO do search request, display results
+		}
+			
+			
+			
 		// check what kind 
 		String listingType = getIntent().getStringExtra("LIST_TYPE");
 		

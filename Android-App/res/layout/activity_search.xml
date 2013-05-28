@@ -35,15 +35,6 @@
         android:layout_height="match_parent"
         android:background="@color/background_blue" >
 
-        <ProgressBar
-            android:id="@+id/searching_bar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="52dp" />
-
         <EditText
             android:id="@+id/search_input_field"
             android:layout_width="wrap_content"
@@ -78,10 +69,11 @@
         <Button
             android:id="@+id/search_submit_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/searching_bar"
+            android:layout_height="75dp"
             android:layout_alignLeft="@+id/search_option_menu"
-            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/search_option_menu"
+            android:layout_marginBottom="54dp"
             android:text="Go!" />
 
     </RelativeLayout>
