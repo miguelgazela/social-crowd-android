@@ -42,6 +42,8 @@ public class DetailedEvent extends BaseEvent {
 	
 	public static DetailedEvent parseJSON(JSONObject data) throws JSONException, RequestException, ParseException {
 		int type;
+		double rating = 0.0;
+		
 		 String strtype = data.getString("type");
 		 if (strtype.equals("public"))
 			 type = BaseEvent.PUBLIC;
@@ -75,11 +77,15 @@ public class DetailedEvent extends BaseEvent {
 		 for (int i = 0; i < arrayratings.length(); i++) {
 			 ratings.add(Rating.parseJSON(arrayratings.getJSONObject(i)));
 		 }
+		 
+		 if(!data.isNull("rating")) {
+			 rating = data.getDouble("rating");
+		 }
 
 		 return new DetailedEvent(type, data.getInt("id"), data.getInt("author_id"), data.getString("name"),
 				 data.getString("description"), DateParser.parseString(data.getString("start_date")), 
 				 DateParser.parseString(data.getString("end_date")), Location.parseJSON(data.getJSONObject("location")), 
-				 tags, data.getString("category"), data.getDouble("rating"), subscriptions, comments, ratings);
+				 tags, data.getString("category"), rating, subscriptions, comments, ratings);
 	}
 	
 	/**

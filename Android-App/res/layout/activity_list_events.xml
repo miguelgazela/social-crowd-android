@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_grey"
     android:orientation="vertical" >
 
     <LinearLayout style="@style/TitleBar" >
@@ -16,6 +17,12 @@
 
         <TextView style="@style/TitleBarText" />
 
+        <ImageButton
+            style="@style/TitleBarAction"
+            android:contentDescription="@string/title_activity_refresh"
+            android:onClick="onClickRefresh"
+            android:src="@drawable/title_refresh" />
+        
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_about"

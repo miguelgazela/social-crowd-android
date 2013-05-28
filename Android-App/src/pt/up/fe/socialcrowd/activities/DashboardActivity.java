@@ -6,6 +6,7 @@ import com.quickblox.core.result.Result;
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.managers.QBManager;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public abstract class DashboardActivity extends Activity {
 	
 	public void onClickHome (View v) {
 	    goHome (this);
+	    finish();
 	}
 	
 	public void onClickSearch (View v) {
@@ -89,8 +91,7 @@ public abstract class DashboardActivity extends Activity {
 				@Override
 				public void onComplete(Result result, Object context) {
 					if(result.isSuccess()) {
-//						goToMainScreen();
-						finish();
+//						goToMainScreen(); TODO Create new mainscreen activity
 					} else {
 						// print errors that came from server
 	        			Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();

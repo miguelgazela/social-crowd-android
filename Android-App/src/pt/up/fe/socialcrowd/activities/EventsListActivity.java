@@ -7,6 +7,7 @@ import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.helpers.EventsListAdapter;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.managers.DataHolder;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.widget.ListView;
 public class EventsListActivity extends DashboardActivity {
 
 	private ArrayList<BaseEvent> events = null;
+	private String listingType;
+	ProgressDialog progressDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +29,13 @@ public class EventsListActivity extends DashboardActivity {
 		setContentView(R.layout.activity_list_events);
 		setTitleFromActivityLabel(R.id.title_text);
 		
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setCancelable(false);
+		progressDialog.setMessage(getResources().getString(R.string.please_wait));
+		progressDialog.show();
+		
 		// check what kind 
-		String listingType = getIntent().getStringExtra("LIST_TYPE");
+		listingType = getIntent().getStringExtra("LIST_TYPE");
 		
 		if(listingType.equalsIgnoreCase(DashboardActivity.LIST_EVENTS)) {
 			getAllEvents();
@@ -39,7 +47,7 @@ public class EventsListActivity extends DashboardActivity {
 			// TODO show some default events ?
 		}
 	}
-
+	
 	private void getUserSubscriptions() {
 		Log.i("EventsListActivity - getUserSubscriptions()", "Requesting user subscriptions");
 
@@ -76,7 +84,6 @@ public class EventsListActivity extends DashboardActivity {
 				}
 				return null;
 			}
-
 			@Override
 			protected void onPostExecute(Void result) {
 				insertContent();
@@ -105,22 +112,41 @@ public class EventsListActivity extends DashboardActivity {
 			}
 		}.execute();
 	}
-	
-	private void insertContent() {
-		final ListView eventsList = (ListView) findViewById(R.id.eventsList);
-		eventsList.setAdapter(new EventsListAdapter(this, events));
-		eventsList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-		    public void onItemClick(AdapterView<?> a, View v, int pos, long id) {
-		        Object obj = eventsList.getItemAtPosition(pos);
-		        BaseEvent event = (BaseEvent) obj;
 
-		        // Launching new Activity on selecting single List Item
-		        Intent intent = new Intent(getApplicationContext(), EventActivity.class);
-		        // sending event id to new activity
-		        intent.putExtra("event_id", event.getId());
-		        startActivity(intent);
-			}
-		});
+	private void insertContent() {
+		progressDialog.dismiss();
+		
+		if(events != null) {
+			final ListView eventsList = (ListView) findViewById(R.id.eventsList);
+			eventsList.setAdapter(new EventsListAdapter(this, events));
+
+			// add click handler to view single event
+			eventsList.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> a, View v, int pos, long id) {
+					Object obj = eventsList.getItemAtPosition(pos);
+					BaseEvent event = (BaseEvent) obj;
+
+					// Launching new Activity on selecting single List Item
+					Intent intent = new Intent(getApplicationContext(), EventActivity.class);
+					// sending event id to new activity
+					intent.putExtra("event_id", event.getId());
+					startActivity(intent);
+				}
+			});
+		}
+	}
+	
+	public void onClickRefresh(View v) {
+		progressDialog.show();
+		if(listingType.equalsIgnoreCase(DashboardActivity.LIST_EVENTS)) {
+			getAllEvents();
+		} else if(listingType.equalsIgnoreCase(DashboardActivity.LIST_MY_EVENTS)) {
+			getUserEvents();
+		} else if(listingType.equalsIgnoreCase(DashboardActivity.LIST_SUBSCRIPTIONS)) {
+			getUserSubscriptions();
+		} else {
+			// TODO show some default events ?
+		}
 	}
 }

@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_grey"
     android:orientation="vertical" >
 
     <LinearLayout style="@style/TitleBar" >
@@ -17,6 +18,12 @@
 
         <ImageButton
             style="@style/TitleBarAction"
+            android:contentDescription="@string/title_activity_refresh"
+            android:onClick="onClickRefresh"
+            android:src="@drawable/title_refresh" />
+        
+        <ImageButton
+            style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_about"
             android:onClick="onClickAbout"
             android:src="@drawable/title_about" />
@@ -26,6 +33,65 @@
             android:contentDescription="@string/title_activity_search"
             android:onClick="onClickSearch"
             android:src="@drawable/title_search" />
+
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/event_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/event_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/event_name"
+            android:layout_toLeftOf="@+id/event_category"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/event_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/event_location"
+            android:layout_alignBottom="@+id/event_location"
+            android:layout_alignParentRight="true"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/event_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/event_location"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/event_location"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/event_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/event_description"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/event_description"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_tags"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp" >
+        </ListView>
+
+    </RelativeLayout>
 
 </LinearLayout>
