@@ -46,6 +46,10 @@ public class SearchActivity extends DashboardActivity {
 		
 
 	private void search(String parameters) {
-		// TODO Auto-generated method stub	
+		
+
+		if(parameters != null){
+			
+		}
 	}
 }

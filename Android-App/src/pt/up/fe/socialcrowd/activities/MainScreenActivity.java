@@ -41,67 +41,29 @@ public class MainScreenActivity extends DashboardActivity {
 			btn.setClickable(false);
 		}
 		
-		new Thread(new Runnable() {
+		// Initialize QuickBlox application with credentials.
+		QBSettings.getInstance().fastConfigInit(Consts.APP_ID, Consts.AUTH_KEY, Consts.AUTH_SECRET);
+		
+		// Authorize application
+		QBAuth.createSession(new QBCallback() {
+			@Override public void onComplete(Result result) {}
 			@Override
-			public void run() {
-				// Initialize QuickBlox application with credentials.
-				QBSettings.getInstance().fastConfigInit(Consts.APP_ID, Consts.AUTH_KEY, Consts.AUTH_SECRET);
-				
-				// Authorize application
-				
-				QBAuth.createSession(new QBCallback() {
-					@Override public void onComplete(Result result) {}
-					@Override
-					public void onComplete(Result result, Object context) {
-						if (result.isSuccess()) {
-							Button btn = (Button)findViewById(R.id.signup_here_btn);
-							if(btn != null) {
-								btn.setClickable(true);
-							}
-							System.out.println("DONE!");
-//							showMainScreen();
-						} else {
-							// print errors that came from server
-//							Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
-//							progressBar.setVisibility(View.INVISIBLE);
-						}
-
+			public void onComplete(Result result, Object context) {
+										
+				if (result.isSuccess()) {
+					Button btn = (Button)findViewById(R.id.signup_here_btn);
+					if(btn != null) {
+						btn.setClickable(true);
 					}
-				}, QBQueries.QB_QUERY_AUTHORIZE_APP);
+					showMainScreen();
+				} else {
+					// print errors that came from server
+					Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
+					progressBar.setVisibility(View.INVISIBLE);
+				}
+
 			}
-		}).start();
-        
-//        new AsyncTask<Void, Void, Void>() {
-//
-//			@Override
-//			protected Void doInBackground(Void... params) {
-//
-//				// Initialize QuickBlox application with credentials.
-//				QBSettings.getInstance().fastConfigInit(Consts.APP_ID, Consts.AUTH_KEY, Consts.AUTH_SECRET);
-//				
-//				// Authorize application
-//				
-//				QBAuth.createSession(new QBCallback() {
-//					@Override public void onComplete(Result result) {}
-//					@Override
-//					public void onComplete(Result result, Object context) {
-//						if (result.isSuccess()) {
-//							Button btn = (Button)findViewById(R.id.signup_here_btn);
-//							if(btn != null) {
-//								btn.setClickable(true);
-//							}
-//							showMainScreen();
-//						} else {
-//							// print errors that came from server
-//							Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
-//							progressBar.setVisibility(View.INVISIBLE);
-//						}
-//
-//					}
-//				}, QBQueries.QB_QUERY_AUTHORIZE_APP);
-//				return null;
-//			}
-//		}.execute();
+		}, QBQueries.QB_QUERY_AUTHORIZE_APP);
 	}
 	
 	@Override

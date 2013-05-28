@@ -9,6 +9,9 @@ import java.util.GregorianCalendar;
 
 import org.json.JSONException;
 
+import com.quickblox.internal.core.exception.BaseServiceException;
+import com.quickblox.module.auth.QBAuth;
+
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.API.RequestException;
@@ -106,7 +109,7 @@ public class NewEventActivity extends DashboardActivity {
 				
 				try {
 					Request.createEvent(
-							"dummy_id", eventType, name, description,
+							QBAuth.getBaseService().getToken(), eventType, name, description,
 							ini, end, null, tags, category);
 				} catch (InvalidParameterException e) {
 					// TODO Auto-generated catch block
@@ -124,6 +127,9 @@ public class NewEventActivity extends DashboardActivity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (BaseServiceException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
