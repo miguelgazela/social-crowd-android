@@ -1,9 +1,14 @@
 package pt.up.fe.socialcrowd.activities;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+
+import org.json.JSONException;
 
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
+import pt.up.fe.socialcrowd.API.RequestException;
 import pt.up.fe.socialcrowd.helpers.EventsListAdapter;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.managers.DataHolder;
@@ -43,11 +48,43 @@ public class EventsListActivity extends DashboardActivity {
 			getUserEvents();
 		} else if(listingType.equalsIgnoreCase(DashboardActivity.LIST_SUBSCRIPTIONS)) {
 			getUserSubscriptions();
-		} else if(listingType.equalsIgnoreCase("search_query")) {
-			//TODO do search request, display results
-		} else {
-			// TODO ?
-		}
+		} else{
+			String name = getIntent().getStringExtra("SEARCH_QUERY_NAME");
+			String category = getIntent().getStringExtra("SEARCH_QUERY_CATEGORY");
+			String allTags = getIntent().getStringExtra("SEARCH_QUERY_ALLTAGS");
+			
+			String tagArray[] = allTags.split(",");
+			ArrayList<String> tags = new ArrayList<String>();
+			
+			for(String s : tagArray){	
+				tags.add(s);			
+			}
+			
+		
+			try {
+				events = Request.getEventsBySearch(null, BaseEvent.PUBLIC , name, category, tags);
+				insertContent();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (RequestException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		
+		
+			
+		} 
 	}
 	
 	private void getUserSubscriptions() {
