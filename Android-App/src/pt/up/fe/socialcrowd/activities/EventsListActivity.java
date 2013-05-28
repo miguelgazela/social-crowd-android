@@ -6,6 +6,7 @@ import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.helpers.EventsListAdapter;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
+import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class EventsListActivity extends DashboardActivity {
 
@@ -42,6 +42,24 @@ public class EventsListActivity extends DashboardActivity {
 
 	private void getUserSubscriptions() {
 		Log.i("EventsListActivity - getUserSubscriptions()", "Requesting user subscriptions");
+
+		// getting stuff from the internet must be done in another thread
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				try {
+					events = Request.getEventsBySubscriberID(DataHolder.getSignInQbUser().getId());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				insertContent();
+			}
+		}.execute();
 	}
 
 	private void getUserEvents() {
@@ -52,7 +70,7 @@ public class EventsListActivity extends DashboardActivity {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-					
+					events = Request.getEventsByOwnerID(DataHolder.getSignInQbUser().getId());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -38,25 +38,6 @@ public abstract class Request {
 	private static final String API_VOTES_URL = API_ROOT_URL + "/votes";
 	private static final String API_RATINGS_URL = API_ROOT_URL + "/ratings";
 	private static final String API_SUBSCRIPTIONS_URL = API_ROOT_URL + "/subscriptions";
-
-
-	/*public static void main(String args[]) {
-		try {
-			Request.createSession("123");
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RequestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
 	
 	private static List<NameValuePair> createSessionHeader(String sid) {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
@@ -65,7 +46,6 @@ public abstract class Request {
 	}
 
 	private static JSONObject doRequest(String url, int type, List<NameValuePair> nameValuePairs, List<NameValuePair> headers) throws InvalidParameterException, IllegalStateException, IOException, JSONException {
-		System.out.println("HERE1"); // TODO remove
 		HttpClient httpclient = new DefaultHttpClient();
 		if (type == GET && nameValuePairs != null) {
 			url += '?';
@@ -142,7 +122,7 @@ public abstract class Request {
 		l.add(new BasicNameValuePair("login",login));
 		l.add(new BasicNameValuePair("password",password));
 		List<NameValuePair> tokenl = new ArrayList<NameValuePair>();
-		tokenl.add(new BasicNameValuePair("Token",token));
+		tokenl.add(new BasicNameValuePair("TOKEN",token));
 
 		JSONObject object = doRequest(API_SESSIONS_URL,POST,l,tokenl);
 
@@ -195,7 +175,7 @@ public abstract class Request {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
 		l.add(new BasicNameValuePair("name",name));
 		l.add(new BasicNameValuePair("description",description));
-		l.add(new BasicNameValuePair("category",description));
+		l.add(new BasicNameValuePair("category",category));
 		l.add(new BasicNameValuePair("start_date",DateParser.parseDate(start_date)));
 		l.add(new BasicNameValuePair("end_date",DateParser.parseDate(end_date)));
 		JSONArray arraytags = new JSONArray(tags);
@@ -346,6 +326,74 @@ public abstract class Request {
 			throw new RequestException(object.getString("data"));
 	}
 	
+	public static ArrayList<BaseEvent> getEventsByOwnerID(int ownerid) throws IllegalStateException, IOException, JSONException, RequestException, ParseException {
+		JSONObject object = doRequest(API_EVENTS_URL+"?owner_id="+Integer.toString(ownerid),GET,null,null);
+
+		String result = object.getString("result");
+		if (result.equals("success")) {
+			ArrayList<BaseEvent> events = new ArrayList<BaseEvent>();
+			JSONArray arrayevents = object.getJSONArray("data");
+			for (int i = 0 ;i < arrayevents.length(); i++) {
+				events.add(BaseEvent.parseJSON(arrayevents.getJSONObject(i)));
+			}
+			return events;		 
+		}
+		else
+			throw new RequestException(object.getString("data"));
+	}
 	
+	public static ArrayList<BaseEvent> getEventsBySubscriberID(int userid) throws IllegalStateException, IOException, JSONException, RequestException, ParseException {
+		JSONObject object = doRequest(API_EVENTS_URL+"?subscriber_id="+Integer.toString(userid),GET,null,null);
+
+		String result = object.getString("result");
+		if (result.equals("success")) {
+			ArrayList<BaseEvent> events = new ArrayList<BaseEvent>();
+			JSONArray arrayevents = object.getJSONArray("data");
+			for (int i = 0 ;i < arrayevents.length(); i++) {
+				events.add(BaseEvent.parseJSON(arrayevents.getJSONObject(i)));
+			}
+			return events;		 
+		}
+		else
+			throw new RequestException(object.getString("data"));
+	}
+	
+	public static ArrayList<BaseEvent> getEventsBySearch(Integer ownerid, Integer type, String name, String category, ArrayList<String> tags) throws IllegalStateException, IOException, JSONException, RequestException, ParseException {
+		List<NameValuePair> l = new ArrayList<NameValuePair>();
+		if (name != null)
+			l.add(new BasicNameValuePair("name",name));
+		if (category != null)
+			l.add(new BasicNameValuePair("category",category));
+		if (ownerid != null)
+			l.add(new BasicNameValuePair("owner_id",ownerid.toString()));
+		if (tags != null && !tags.isEmpty()) {
+			JSONArray arraytags = new JSONArray(tags);
+			l.add(new BasicNameValuePair("tags",arraytags.toString()));
+		}
+		if (type != null) {
+			int typ = type.intValue();
+			if (typ == BaseEvent.PUBLIC)
+				l.add(new BasicNameValuePair("type","public"));
+			else if (typ == BaseEvent.PRIVATE)
+				l.add(new BasicNameValuePair("type","private"));
+			else if (typ == BaseEvent.GEOLOCATED)
+				l.add(new BasicNameValuePair("type","geolocated"));
+			else
+				throw new RequestException("invalid event type");
+		}
+		JSONObject object = doRequest(API_EVENTS_URL,GET,l,null);
+
+		String result = object.getString("result");
+		if (result.equals("success")) {
+			ArrayList<BaseEvent> events = new ArrayList<BaseEvent>();
+			JSONArray arrayevents = object.getJSONArray("data");
+			for (int i = 0 ;i < arrayevents.length(); i++) {
+				events.add(BaseEvent.parseJSON(arrayevents.getJSONObject(i)));
+			}
+			return events;		 
+		}
+		else
+			throw new RequestException(object.getString("data"));
+	}
 	
 }
