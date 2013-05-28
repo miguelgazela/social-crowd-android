@@ -1,20 +1,11 @@
 package pt.up.fe.socialcrowd.activities;
 
-import java.io.IOException;
-import java.security.InvalidParameterException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.json.JSONException;
-
-import com.quickblox.internal.core.exception.BaseServiceException;
-import com.quickblox.module.auth.QBAuth;
-
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
-import pt.up.fe.socialcrowd.API.RequestException;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,6 +19,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.quickblox.module.auth.QBAuth;
+
 public class NewEventActivity extends DashboardActivity {
 
 	
@@ -37,26 +30,24 @@ public class NewEventActivity extends DashboardActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event);
 		setTitleFromActivityLabel(R.id.title_text);
-		
+
 		Button submit = (Button) findViewById(R.id.new_event_submit_button);
 		submit.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				addEvent();
 				startActivity(new Intent(getApplicationContext(), HomeActivity.class));
 			}
 		});
-		
-		
 	}
-	
+
 	private void addEvent() {
 		Log.i("NewEventActivity - addEvent()", "Adding new event");
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
-	
+
 				String name = ((EditText) findViewById(R.id.event_name)).getText().toString();
 				String description = ((EditText) findViewById(R.id.event_description)).getText().toString();
 				String category = ((EditText) findViewById(R.id.event_category)).getText().toString();
@@ -66,12 +57,12 @@ public class NewEventActivity extends DashboardActivity {
 				for(String s : alltags){
 					tags.add(s);
 				}
-				
+
 				RadioGroup rbg = (RadioGroup) findViewById(R.id.newEvent_radioButtonGroup);	
 				RadioButton selected = (RadioButton) findViewById(rbg.getCheckedRadioButtonId());
 				String type = selected.getText().toString();
 				int eventType = 0;
-				
+
 				if(type == "Private"){
 					eventType = BaseEvent.PRIVATE;
 				}else{
@@ -83,7 +74,7 @@ public class NewEventActivity extends DashboardActivity {
 						}
 					}
 				}
-				
+
 				DatePicker iniDatePicker = (DatePicker) findViewById(R.id.begin_datepicker);
 				DatePicker endDatePicker = (DatePicker) findViewById(R.id.end_datepicker);
 				GregorianCalendar gc = new GregorianCalendar(
@@ -96,8 +87,7 @@ public class NewEventActivity extends DashboardActivity {
 						endDatePicker.getMonth(),
 						endDatePicker.getDayOfMonth());
 				Date end = gc.getTime();
-				
-				
+
 				Log.i("eventType", type);
 				Log.i("tags", singleLineTags);
 				Log.i("name", name);
@@ -105,32 +95,10 @@ public class NewEventActivity extends DashboardActivity {
 				Log.i("descrition", description);
 				Log.i("IniDate", ini.toString());
 				Log.i("endDate", end.toString());
-				
-				
+
 				try {
-					Request.createEvent(
-							QBAuth.getBaseService().getToken(), eventType, name, description,
-							ini, end, null, tags, category);
-				} catch (InvalidParameterException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (RequestException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (BaseServiceException e) {
-					// TODO Auto-generated catch block
+					Request.createEvent(QBAuth.getBaseService().getToken(), eventType, name, description, ini, end, null, tags, category);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
@@ -138,6 +106,6 @@ public class NewEventActivity extends DashboardActivity {
 			}
 		}.execute();
 	}
-	
-	
+
+
 }

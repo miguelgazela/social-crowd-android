@@ -10,7 +10,7 @@ public abstract class DataHolder {
         signInQbUser = singInQbUser;
     }
 
-    public QBUser getSignInQbUser() {
+    public static QBUser getSignInQbUser() {
         return signInQbUser;
     }
 }

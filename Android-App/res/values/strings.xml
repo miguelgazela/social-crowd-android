@@ -26,6 +26,8 @@
     <string name="title_activity_about">About</string>
     <string name="title_activity_search">Search</string>
     <string name="title_activity_home">SocialCrowd</string>
+    <string name="title_activity_back">back</string>
+    <string name="title_activity_refresh">refresh</string>
 
     <!-- Others -->
     <string name="addNewEvent">Add Event</string>

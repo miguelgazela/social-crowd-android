@@ -57,8 +57,9 @@ public class BaseEvent {
 	}
 	public static BaseEvent parseJSON(JSONObject data) throws JSONException, RequestException, ParseException {
 		int type;
-
-		System.out.println("EVENT: "+data.toString()); // TODO remove
+		double rating = 0.0;
+		
+//		System.out.println("EVENT: "+data.toString()); // TODO remove
 
 		// get event type
 		String eventType = data.getString("type");
@@ -77,11 +78,15 @@ public class BaseEvent {
 		for (int i = 0; i < arraytags.length(); i++) {
 			tags.add(arraytags.getString(i));
 		}
+		
+		if(!data.isNull("rating")) {
+			rating = data.getDouble("rating");
+		}
 
 		return new BaseEvent(type, data.getInt("id"), data.getInt("author_id"), data.getString("name"),
 				data.getString("description"), DateParser.parseString(data.getString("start_date")), 
 				DateParser.parseString(data.getString("end_date")), Location.parseJSON(data.getJSONObject("location")), 
-				tags, data.getString("category"), data.getDouble("rating"));
+				tags, data.getString("category"), rating);
 	}
 
 	/**
