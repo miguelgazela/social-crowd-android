@@ -13,4 +13,5 @@
     <color name="dark_blue">#1186c0</color>
     <color name="background_blue">#2ca6df</color>
     <color name="background_grey">#e6e6e6</color>
+    <color name="TileBackground">#44ffffff</color>
 </resources>
