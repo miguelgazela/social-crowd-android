@@ -15,7 +15,7 @@ public class Downvote extends Vote {
 	}
 	
 	public static Downvote parseJSON(JSONObject json) throws JSONException {
-		return new Downvote(json.getInt("id"), json.getInt("user_id"));
+		return new Downvote(json.getInt("id"), json.getInt("social_user"));
 	}
 
 }

@@ -22,11 +22,13 @@
             android:onClick="onClickRefresh"
             android:src="@drawable/title_refresh" />
         
+        <!--
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_about"
             android:onClick="onClickAbout"
             android:src="@drawable/title_about" />
+        -->
 
         <ImageButton
             style="@style/TitleBarAction"
@@ -80,17 +82,56 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/event_description"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="25dp"
             android:layout_below="@+id/event_description"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
+        
         <ListView
-            android:id="@+id/listView1"
+            android:id="@+id/commentsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/inputComment"
             android:layout_below="@+id/event_tags"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="18dp" >
+            android:layout_marginBottom="5dp"
+            android:layout_centerHorizontal="true" >
         </ListView>
+
+        <ImageView
+            android:id="@+id/commentsSeparator"
+            style="@style/EventCommentsSeparator"
+            android:layout_above="@+id/commentsList"
+            android:layout_alignLeft="@+id/commentsList" />
+
+        <EditText
+            android:id="@+id/inputComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/commentsList"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/button1"
+            android:ems="10"
+            android:inputType="textMultiLine" >
+        </EditText>
+
+        <Button
+            android:id="@+id/button1"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/inputComment"
+            android:layout_alignBottom="@+id/inputComment"
+            android:layout_toLeftOf="@+id/event_category"
+            android:text="Comment" />
+
+        <TextView
+            android:id="@+id/commentsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/commentsList"
+            android:layout_centerHorizontal="true"
+            android:text="Comments"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/background_blue" />
 
     </RelativeLayout>
 

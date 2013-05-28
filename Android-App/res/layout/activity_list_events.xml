@@ -23,11 +23,13 @@
             android:onClick="onClickRefresh"
             android:src="@drawable/title_refresh" />
         
+        <!--
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_about"
             android:onClick="onClickAbout"
             android:src="@drawable/title_about" />
+        -->
 
         <ImageButton
             style="@style/TitleBarAction"

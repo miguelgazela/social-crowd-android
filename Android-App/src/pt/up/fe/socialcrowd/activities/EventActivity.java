@@ -1,12 +1,18 @@
 package pt.up.fe.socialcrowd.activities;
 
+import java.util.ArrayList;
+
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
+import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
+import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class EventActivity extends DashboardActivity {
@@ -53,7 +59,13 @@ public class EventActivity extends DashboardActivity {
 					progressDialog.dismiss();
 					
 					eventName.setText(event.getName());
+					eventDescription.setText(event.getDescription());
+					eventCategory.setText(event.getCategory());
+					eventLocation.setText(event.getLocation().getText());
+					ArrayList<String> tags = event.getTags();
+					eventTags.setText(tags.toString());
 					
+					insertComments();
 				} else {
 					progressDialog.dismiss();
 					// display warning
@@ -62,10 +74,31 @@ public class EventActivity extends DashboardActivity {
 		}.execute();
 	}
 	
+	private void insertComments() {
+		ArrayList<Comment> comments = event.getComments();
+		
+		if(comments != null) {
+			if(comments.size() != 0) {
+				ImageView separator = (ImageView) findViewById(R.id.commentsSeparator);
+				if(separator != null) {
+					separator.setVisibility(View.VISIBLE);
+				}
+				TextView commentsTitle = (TextView) findViewById(R.id.commentsTitle);
+				if(commentsTitle != null) {
+					commentsTitle.setVisibility(View.VISIBLE);
+				}
+			}
+			
+			final ListView commentsList = (ListView) findViewById(R.id.commentsList);
+			commentsList.setAdapter(new CommentsListAdapter(this, comments));
+		}
+	}
+
 	public void onClickBack(View v) {
-		progressDialog.dismiss();
 		finish();
 	}
 	
-	
+	public void onClickRefresh(View v) {
+		// update comments here!
+	}
 }

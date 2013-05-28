@@ -15,7 +15,7 @@ public class Upvote extends Vote {
 	}
 	
 	public static Upvote parseJSON(JSONObject json) throws JSONException {
-		return new Upvote(json.getInt("id"), json.getInt("user_id"));
+		return new Upvote(json.getInt("id"), json.getInt("social_user"));
 	}
 
 }

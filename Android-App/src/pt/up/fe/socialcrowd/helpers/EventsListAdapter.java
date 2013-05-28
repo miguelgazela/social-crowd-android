@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
-import android.R.integer;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
