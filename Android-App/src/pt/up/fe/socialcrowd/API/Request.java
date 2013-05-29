@@ -20,6 +20,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +68,7 @@ public abstract class Request {
 			case POST:
 				HttpPost httppost = new HttpPost(url);
 				if (nameValuePairs != null && !nameValuePairs.isEmpty())
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs,HTTP.UTF_8));
 				if (headers != null && !headers.isEmpty()) {
 					for (int i = 0; i < headers.size(); i++) {
 						httppost.addHeader(headers.get(i).getName(),headers.get(i).getValue());
@@ -97,7 +98,7 @@ public abstract class Request {
 			case PUT:
 				HttpPut httpput = new HttpPut(url);
 				if (nameValuePairs != null && !nameValuePairs.isEmpty())
-					httpput.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					httpput.setEntity(new UrlEncodedFormEntity(nameValuePairs,HTTP.UTF_8));
 				if (headers != null && !headers.isEmpty()) {
 					for (int i = 0; i < headers.size(); i++) {
 						httpput.addHeader(headers.get(i).getName(),headers.get(i).getValue());
