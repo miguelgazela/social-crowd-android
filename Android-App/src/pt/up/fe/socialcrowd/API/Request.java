@@ -193,7 +193,8 @@ public abstract class Request {
 		l.add(new BasicNameValuePair("end_date",DateParser.parseDate(end_date)));
 		JSONObject locationobj = new JSONObject();
 		locationobj.put("name", location.getText());
-		locationobj.put("gps", location.getGps());
+		if (location.getGps() != null)
+			locationobj.put("gps", location.getGps());
 		l.add(new BasicNameValuePair("location",locationobj.toString()));
 		JSONArray arraytags = new JSONArray(tags);
 		JSONObject objtags = new JSONObject();
