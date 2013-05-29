@@ -3,13 +3,19 @@ package pt.up.fe.socialcrowd.activities;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
+
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
+import pt.up.fe.socialcrowd.logic.Downvote;
+import pt.up.fe.socialcrowd.logic.Upvote;
+import pt.up.fe.socialcrowd.logic.Vote;
 import pt.up.fe.socialcrowd.managers.DataHolder;
+import android.R.integer;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -17,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore.Video;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -117,30 +124,87 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 				@Override
 				public void onItemClick(AdapterView<?> a, View v, int pos, long id) {
 					Object obj = commentsList.getItemAtPosition(pos);
-					Comment comment = (Comment) obj; 
+					final Comment comment = (Comment) obj; 
 
 					// Launching new dialog on selecting single List Item
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EventActivity.this);
 					
-					CharSequence[] choices;
+					CharSequence[] choices = null;
 					
 					if(comment.getAuthor_id() == DataHolder.getCurrentUserSession().getUser_id()) {
-						final CharSequence[] items = {"Like","Dislike","Delete"};
+						final CharSequence[] items = {"Delete"};
 						choices = items;
 					} else {
-						final CharSequence[] items = {"Like","Dislike"};
-						choices = items;
+						boolean found = false;
+						
+						// check if user has voted in this comment
+						ArrayList<Upvote> upvotes = comment.getUpvotes();
+						for(Upvote u : upvotes) {
+							if(u.getUser_id() == DataHolder.getCurrentUserSession().getUser_id()) {
+								final CharSequence[] items = {"Remove like"};
+								choices = items;
+								found = true;
+								break;
+							}
+						}
+						
+						if(!found) {
+							ArrayList<Downvote> downvotes = comment.getDownvotes();
+							for(Downvote u : downvotes) {
+								if(u.getUser_id() == DataHolder.getCurrentUserSession().getUser_id()) {
+									final CharSequence[] items = {"Remove dislike"};
+									choices = items;
+									found = true;
+									break;
+								}
+							}
+						}
+						
+						if(!found) {
+							final CharSequence[] items = {"Like","Dislike"};
+							choices = items;
+						}
 					}
+					
+					final CharSequence[] choicesFinal = choices;
 
 					// set title
 					alertDialogBuilder
 					.setTitle("Available actions")
 					.setItems(choices, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
-							Log.i("actions comment", "clicked on: "+which);
+							
+							final String choice = choicesFinal[which].toString();
+							new AsyncTask<Void, Void, Void>() {
+
+								@Override
+								protected Void doInBackground(Void... params) {
+									try {
+										Log.i("new vote up on comment", ""+choice);
+										
+										if(choice.equalsIgnoreCase("Delete")) {
+											Request.deleteComment(DataHolder.getCurrentUserSession().getSession_id(), comment.getId());
+										} else if (choice.equalsIgnoreCase("Like")) {
+											Request.createVote(DataHolder.getCurrentUserSession().getSession_id(), comment.getId(), Vote.UPVOTE);
+										} else if (choice.equalsIgnoreCase("Dislike")) {
+											Request.createVote(DataHolder.getCurrentUserSession().getSession_id(), comment.getId(), Vote.DOWNVOTE);
+										} else if (choice.equalsIgnoreCase("Remove like") || choice.equalsIgnoreCase("Remove dislike")) {
+											Request.deleteVote(DataHolder.getCurrentUserSession().getSession_id(), comment.getId());
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									return null;
+								}
+
+								@Override
+								protected void onPostExecute(Void result) {
+
+								}
+							}.execute();
 						}
 					});
-					
+
 					// create alert dialog
 					AlertDialog alertDialog = alertDialogBuilder.create();
 
