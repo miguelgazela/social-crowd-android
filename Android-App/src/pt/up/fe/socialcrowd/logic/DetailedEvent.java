@@ -82,10 +82,21 @@ public class DetailedEvent extends BaseEvent {
 			 rating = data.getDouble("rating");
 		 }
 
-		 return new DetailedEvent(type, data.getInt("id"), data.getInt("author_id"), data.getString("name"),
-				 data.getString("description"), DateParser.parseString(data.getString("start_date")), 
-				 DateParser.parseString(data.getString("end_date")), Location.parseJSON(data.getJSONObject("location")), 
-				 tags, data.getString("category"), rating, subscriptions, comments, ratings);
+		 return new DetailedEvent(
+				 type,
+				 data.getInt("id"),
+				 data.getInt("author_id"),
+				 data.getString("name"),
+				 data.getString("description"),
+				 DateParser.parseString(data.getString("start_date")), 
+				 DateParser.parseString(data.getString("start_date")),
+				 Location.parseJSON(data.getJSONObject("location")), 
+				 tags,
+				 data.getString("category"),
+				 rating,
+				 subscriptions,
+				 comments,
+				 ratings);
 	}
 	
 	/**
