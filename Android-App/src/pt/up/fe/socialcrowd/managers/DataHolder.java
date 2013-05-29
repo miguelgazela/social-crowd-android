@@ -1,10 +1,12 @@
 package pt.up.fe.socialcrowd.managers;
 
+import pt.up.fe.socialcrowd.logic.Location;
 import pt.up.fe.socialcrowd.logic.Session;
 
 public abstract class DataHolder {
 
 	private static Session currentUserSession;
+	public static Location location;
 	
 	public static void setCurrentUserSession(Session session) {
 		currentUserSession = session;
