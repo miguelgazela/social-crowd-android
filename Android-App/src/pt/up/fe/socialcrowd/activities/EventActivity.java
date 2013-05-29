@@ -9,7 +9,10 @@ import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
+import pt.up.fe.socialcrowd.logic.Downvote;
 import pt.up.fe.socialcrowd.logic.Subscription;
+import pt.up.fe.socialcrowd.logic.Upvote;
+import pt.up.fe.socialcrowd.logic.Vote;
 import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,7 +39,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 	private ProgressDialog progressDialog = null;
 	private TextView eventName, eventLocation, eventDescription, eventTags, eventCategory;
 	private EditText inputComment;
-	private Button subscriptionButton;
+	private ImageButton subscriptionButton;
 	private boolean isSubscribed;
 
 	@Override
@@ -55,10 +57,8 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 	}
 
 	private void checkSubscribed() {
-
-		subscriptionButton = (Button) findViewById(R.id.subscribe_button);
+		subscriptionButton = (ImageButton) findViewById(R.id.subscribe_button);
 		isSubscribed = getIntent().getBooleanExtra("subscribed_event", false);
-
 	}
 
 	private void displayEvent() {
@@ -139,30 +139,87 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 				@Override
 				public void onItemClick(AdapterView<?> a, View v, int pos, long id) {
 					Object obj = commentsList.getItemAtPosition(pos);
-					Comment comment = (Comment) obj; 
+					final Comment comment = (Comment) obj; 
 
 					// Launching new dialog on selecting single List Item
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EventActivity.this);
 					
-					CharSequence[] choices;
+					CharSequence[] choices = null;
 					
 					if(comment.getAuthor_id() == DataHolder.getCurrentUserSession().getUser_id()) {
-						final CharSequence[] items = {"Like","Dislike","Delete"};
+						final CharSequence[] items = {"Delete"};
 						choices = items;
 					} else {
-						final CharSequence[] items = {"Like","Dislike"};
-						choices = items;
+						boolean found = false;
+						
+						// check if user has voted in this comment
+						ArrayList<Upvote> upvotes = comment.getUpvotes();
+						for(Upvote u : upvotes) {
+							if(u.getUser_id() == DataHolder.getCurrentUserSession().getUser_id()) {
+								final CharSequence[] items = {"Remove like"};
+								choices = items;
+								found = true;
+								break;
+							}
+						}
+						
+						if(!found) {
+							ArrayList<Downvote> downvotes = comment.getDownvotes();
+							for(Downvote u : downvotes) {
+								if(u.getUser_id() == DataHolder.getCurrentUserSession().getUser_id()) {
+									final CharSequence[] items = {"Remove dislike"};
+									choices = items;
+									found = true;
+									break;
+								}
+							}
+						}
+						
+						if(!found) {
+							final CharSequence[] items = {"Like","Dislike"};
+							choices = items;
+						}
 					}
+					
+					final CharSequence[] choicesFinal = choices;
 
 					// set title
 					alertDialogBuilder
 					.setTitle("Available actions")
 					.setItems(choices, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
-							Log.i("actions comment", "clicked on: "+which);
+							
+							final String choice = choicesFinal[which].toString();
+							new AsyncTask<Void, Void, Void>() {
+
+								@Override
+								protected Void doInBackground(Void... params) {
+									try {
+										Log.i("new vote up on comment", ""+choice);
+										
+										if(choice.equalsIgnoreCase("Delete")) {
+											Request.deleteComment(DataHolder.getCurrentUserSession().getSession_id(), comment.getId());
+										} else if (choice.equalsIgnoreCase("Like")) {
+											Request.createVote(DataHolder.getCurrentUserSession().getSession_id(), comment.getId(), Vote.UPVOTE);
+										} else if (choice.equalsIgnoreCase("Dislike")) {
+											Request.createVote(DataHolder.getCurrentUserSession().getSession_id(), comment.getId(), Vote.DOWNVOTE);
+										} else if (choice.equalsIgnoreCase("Remove like") || choice.equalsIgnoreCase("Remove dislike")) {
+											Request.deleteVote(DataHolder.getCurrentUserSession().getSession_id(), comment.getId());
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									return null;
+								}
+
+								@Override
+								protected void onPostExecute(Void result) {
+
+								}
+							}.execute();
 						}
 					});
-					
+
 					// create alert dialog
 					AlertDialog alertDialog = alertDialogBuilder.create();
 
@@ -296,7 +353,6 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 
 	public void onClickSubscribe(View v){
 
-
 		new AsyncTask<Void, Void, Void>(){
 
 			@Override
@@ -312,18 +368,9 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 					Log.i("EXCEPTION", "In Request.createSubscription -> " + e.getMessage());
 					e.printStackTrace();
 				}
-
-
-
-
 				return null;
 			}
-
 		}.execute();
-
-
-
-
 	}
 
 	@Override

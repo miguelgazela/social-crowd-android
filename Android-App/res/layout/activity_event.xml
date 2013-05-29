@@ -16,13 +16,12 @@
 
         <TextView style="@style/TitleBarText" />
 
-        <Button
+        <ImageButton
             android:id="@+id/subscribe_button"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TitleBarAction"
+            android:contentDescription="@string/title_activity_delete"
             android:onClick="onClickSubscribe"
-            android:text="Subscribe" />
+            android:src="@drawable/title_subscribe" />
 
         <ImageButton
             style="@style/TitleBarAction"

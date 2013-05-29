@@ -45,6 +45,8 @@ public abstract class Request {
 	private static final String API_RATINGS_URL = API_ROOT_URL + "/ratings";
 	private static final String API_SUBSCRIPTIONS_URL = API_ROOT_URL + "/subscriptions";
 	
+	private static final double radius = 5000;
+	
 	private static List<NameValuePair> createSessionHeader(String sid) {
 		List<NameValuePair> l = new ArrayList<NameValuePair>();
 		l.add(new BasicNameValuePair("SESSION_ID",sid));
@@ -434,6 +436,29 @@ public abstract class Request {
 		}
 		else
 			throw new RequestException(object.getString("data"));
+	}
+	
+	public static ArrayList<BaseEvent> filterEvents(ArrayList<BaseEvent> events, int user_id, GPSCoords coords) {
+		ArrayList<BaseEvent> returnEvents = new ArrayList<BaseEvent>();
+		for (int i = 0 ; i < events.size(); i++) {
+			BaseEvent event = events.get(i);
+			if (event.getType() == BaseEvent.PRIVATE && event.getAuthorId() != user_id)
+				continue;
+			else if (event.getType() == BaseEvent.GEOLOCATED && !inRadius(coords,event.getLocation().getGps()))
+				continue;
+			else
+				returnEvents.add(event);
+		}
+		return returnEvents;
+	}
+
+	private static boolean inRadius(GPSCoords coords, GPSCoords gps) {
+		float[] vals = new float[1];
+		android.location.Location.distanceBetween(coords.getLatitude(), coords.getLatitude(), gps.getLatitude(), gps.getLongitude(), vals);
+		if (vals[0] <= radius)
+			return true;
+		else
+			return false;
 	}
 	
 }
