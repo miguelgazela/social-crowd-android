@@ -53,20 +53,21 @@ public class CommentsListAdapter extends BaseAdapter {
 			holder.commentUsername = (TextView) convertView.findViewById(R.id.comment_username);
 			holder.commentDate = (TextView) convertView.findViewById(R.id.comment_date);
 			holder.commentBody = (TextView) convertView.findViewById(R.id.comment_body);
+			holder.commentScore = (TextView) convertView.findViewById(R.id.score);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
 		holder.commentUsername.setText("username_here");
-		
 		holder.commentDate.setText(DateParser.getPrettyDate(comments.get(pos).getDate()));
 		holder.commentBody.setText(comments.get(pos).getText());
+		holder.commentScore.setText("Likes: "+comments.get(pos).getUpvotes().size()+" Dislikes: "+comments.get(pos).getDownvotes().size());
 		return convertView;
 	}
 	
 	private static class ViewHolder {
-		TextView commentUsername, commentDate, commentBody;
+		TextView commentUsername, commentDate, commentBody, commentScore;
 	}
 }
 

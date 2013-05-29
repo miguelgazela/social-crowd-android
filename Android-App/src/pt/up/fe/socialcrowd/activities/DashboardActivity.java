@@ -1,5 +1,7 @@
 package pt.up.fe.socialcrowd.activities;
 
+import com.quickblox.module.auth.QBAuth;
+
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.managers.DataHolder;
@@ -90,7 +92,9 @@ public abstract class DashboardActivity extends Activity {
 				@Override
 				protected Boolean doInBackground(Void... userInfo) {
 					try {
-						Request.deleteSession(DataHolder.getCurrentUserSession().getSession_id());
+						Request.deleteSession(
+								DataHolder.getCurrentUserSession().getSession_id(),
+								QBAuth.getBaseService().getToken());
 						DataHolder.deleteCurrentUserSession();
 						return true;
 					} catch(Exception e) {
