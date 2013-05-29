@@ -64,6 +64,7 @@ public class EventsListActivity extends DashboardActivity {
 				protected Void doInBackground(ArrayList<String>... params) {
 					try {
 						events = Request.getEventsBySearch(null, null, name, category, params[0]);
+						events = Request.filterEvents(events, DataHolder.getCurrentUserSession().getUser_id(), null);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -87,6 +88,7 @@ public class EventsListActivity extends DashboardActivity {
 			protected Void doInBackground(Void... params) {
 				try {
 					events = Request.getEventsBySubscriberID(DataHolder.getCurrentUserSession().getUser_id());
+					events = Request.filterEvents(events, DataHolder.getCurrentUserSession().getUser_id(), null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -108,6 +110,7 @@ public class EventsListActivity extends DashboardActivity {
 			protected Void doInBackground(Void... params) {
 				try {
 					events = Request.getEventsByOwnerID(DataHolder.getCurrentUserSession().getUser_id());
+					events = Request.filterEvents(events, DataHolder.getCurrentUserSession().getUser_id(), null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -128,6 +131,7 @@ public class EventsListActivity extends DashboardActivity {
 			protected Void doInBackground(Void... params) {
 				try {
 					events = Request.getEvents();
+					events = Request.filterEvents(events, DataHolder.getCurrentUserSession().getUser_id(), null);
 				} catch (Exception e) {
 					Log.i("EXCEPTION", e.getMessage());
 					e.printStackTrace();

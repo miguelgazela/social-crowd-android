@@ -444,8 +444,8 @@ public abstract class Request {
 			BaseEvent event = events.get(i);
 			if (event.getType() == BaseEvent.PRIVATE && event.getAuthorId() != user_id)
 				continue;
-			else if (event.getType() == BaseEvent.GEOLOCATED && !inRadius(coords,event.getLocation().getGps()))
-				continue;
+//			else if (event.getType() == BaseEvent.GEOLOCATED && !inRadius(coords,event.getLocation().getGps()))
+//				continue;
 			else
 				returnEvents.add(event);
 		}
