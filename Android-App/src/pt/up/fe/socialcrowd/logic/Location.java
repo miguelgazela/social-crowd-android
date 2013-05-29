@@ -14,7 +14,10 @@ public class Location {
 	}
 	
 	public static Location parseJSON(JSONObject json) throws JSONException {
-		return new Location(json.getInt("id"),json.getString("name"),GPSCoords.parseJSON(json.getJSONObject("gps")));
+		GPSCoords c = null;
+		if (!json.isNull("gps"))
+			c = GPSCoords.parseJSON(json.getJSONObject("gps"));
+		return new Location(json.getInt("id"),json.getString("name"),c);
 	}
 
 	/**
