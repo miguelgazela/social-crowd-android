@@ -6,6 +6,7 @@ import java.util.Date;
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
+import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
 import pt.up.fe.socialcrowd.managers.DataHolder;
@@ -13,18 +14,21 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class EventActivity extends DashboardActivity implements OnClickListener {
 	
@@ -107,9 +111,46 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 			
 			final ListView commentsList = (ListView) findViewById(R.id.commentsList);
 			commentsList.setAdapter(new CommentsListAdapter(this, comments));
+			
+			// add click handler to view single event
+			commentsList.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> a, View v, int pos, long id) {
+					Object obj = commentsList.getItemAtPosition(pos);
+					Comment comment = (Comment) obj; 
+
+					// Launching new dialog on selecting single List Item
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EventActivity.this);
+					
+					CharSequence[] choices;
+					
+					if(comment.getAuthor_id() == DataHolder.getCurrentUserSession().getUser_id()) {
+						final CharSequence[] items = {"Like","Dislike","Delete"};
+						choices = items;
+					} else {
+						final CharSequence[] items = {"Like","Dislike"};
+						choices = items;
+					}
+
+					// set title
+					alertDialogBuilder
+					.setTitle("Available actions")
+					.setItems(choices, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							Log.i("actions comment", "clicked on: "+which);
+						}
+					});
+					
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+
+					// show it
+					alertDialog.show();
+				}
+			});
 		}
 	}
-	
+
 	public void addComment(View v) {
 		
 		// get comment text and validate it

@@ -129,7 +129,9 @@ public class EventsListActivity extends DashboardActivity {
 				try {
 					events = Request.getEvents();
 				} catch (Exception e) {
+					Log.i("EXCEPTION", e.getMessage());
 					e.printStackTrace();
+					
 				}
 				return null;
 			}
