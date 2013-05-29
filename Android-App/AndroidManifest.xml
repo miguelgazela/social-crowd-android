@@ -95,7 +95,7 @@
             android:name="pt.up.fe.socialcrowd.activities.EventActivity"
             android:label="@string/title_activity_event"
             android:screenOrientation="portrait" >
-        </activity>wdsffee
+        </activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
