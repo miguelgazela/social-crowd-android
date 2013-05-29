@@ -18,6 +18,12 @@
 
         <ImageButton
             style="@style/TitleBarAction"
+            android:contentDescription="@string/title_activity_delete"
+            android:onClick="onClickSubscribe"
+            android:src="@drawable/title_subscribe" />
+
+        <ImageButton
+            style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_refresh"
             android:onClick="onClickRefresh"
             android:src="@drawable/title_refresh" />

@@ -161,6 +161,9 @@ public class EventsListActivity extends DashboardActivity {
 					Intent intent = new Intent(getApplicationContext(), EventActivity.class);
 					// sending event id to new activity
 					intent.putExtra("event_id", event.getId());
+					if(listingType.equals(DashboardActivity.LIST_SUBSCRIPTIONS)){
+						intent.putExtra("subscribed_event", true);
+					}
 					startActivity(intent);
 				}
 			});

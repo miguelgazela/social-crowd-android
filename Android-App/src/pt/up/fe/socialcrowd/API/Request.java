@@ -147,8 +147,10 @@ public abstract class Request {
 		}
 	}
 
-	public static void deleteSession(String session_id) throws JSONException, RequestException, InvalidParameterException, IllegalStateException, IOException {
-		JSONObject object = doRequest(API_SESSIONS_URL + "/" + session_id,DELETE,null,createSessionHeader(session_id));
+	public static void deleteSession(String session_id, String token) throws JSONException, RequestException, InvalidParameterException, IllegalStateException, IOException {
+		List<NameValuePair> tokenl = new ArrayList<NameValuePair>();
+		tokenl.add(new BasicNameValuePair("TOKEN",token));
+		JSONObject object = doRequest(API_SESSIONS_URL + "/" + session_id,DELETE,null,tokenl);
 
 		String result = object.getString("result");
 		if (!result.equals("success"))
