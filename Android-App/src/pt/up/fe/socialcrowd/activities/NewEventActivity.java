@@ -1,5 +1,6 @@
 package pt.up.fe.socialcrowd.activities;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -7,6 +8,7 @@ import java.util.GregorianCalendar;
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
+import pt.up.fe.socialcrowd.logic.DateParser;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -52,7 +54,7 @@ public class NewEventActivity extends DashboardActivity {
 				String description = ((EditText) findViewById(R.id.event_description)).getText().toString();
 				String category = ((EditText) findViewById(R.id.event_category)).getText().toString();
 				String singleLineTags = ((EditText) findViewById(R.id.tags_field)).getText().toString();
-				String alltags[] = singleLineTags.split(",");
+				String alltags[] = singleLineTags.split(" ");
 				ArrayList<String> tags = new ArrayList<String>();
 				for(String s : alltags){
 					tags.add(s);
@@ -74,34 +76,37 @@ public class NewEventActivity extends DashboardActivity {
 						}
 					}
 				}
+				
+				String iniDate = ((EditText) findViewById(R.id.start_date)).getText().toString();
+				String endDate = ((EditText) findViewById(R.id.end_date)).getText().toString();
+				
+				
+				Date ini = null;
+				Date end = null;
+				try {
+					ini = DateParser.parseString(iniDate);
+					end = DateParser.parseString(endDate);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+		
+				Log.i("eventType", type);
+				Log.i("tags", singleLineTags);
+				Log.i("name", name);
+				Log.i("category", category);
+				Log.i("descrition", description);
+				Log.i("IniDate", iniDate);
+				Log.i("endDate", endDate);
 
-//				DatePicker iniDatePicker = (DatePicker) findViewById(R.id.begin_datepicker);
-//				DatePicker endDatePicker = (DatePicker) findViewById(R.id.end_datepicker);
-//				GregorianCalendar gc = new GregorianCalendar(
-//						iniDatePicker.getYear(),
-//						iniDatePicker.getMonth(),
-//						iniDatePicker.getDayOfMonth());		
-//				Date ini = gc.getTime();
-//				gc = new GregorianCalendar(
-//						endDatePicker.getYear(),
-//						endDatePicker.getMonth(),
-//						endDatePicker.getDayOfMonth());
-//				Date end = gc.getTime();
-//
-//				Log.i("eventType", type);
-//				Log.i("tags", singleLineTags);
-//				Log.i("name", name);
-//				Log.i("category", category);
-//				Log.i("descrition", description);
-//				Log.i("IniDate", ini.toString());
-//				Log.i("endDate", end.toString());
-//
-//				try {
-//					Request.createEvent(QBAuth.getBaseService().getToken(), eventType, name, description, ini, end, null, tags, category);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//
+				try {
+					Request.createEvent(QBAuth.getBaseService().getToken(), eventType, name, description, ini, end, null, tags, category);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 				return null;
 			}
 		}.execute();

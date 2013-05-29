@@ -94,8 +94,9 @@
                 android:id="@+id/start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tags_field"
+                android:layout_alignRight="@+id/tags_field"
                 android:layout_below="@+id/tags_field"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="Start date (d/m/y)"
@@ -105,22 +106,30 @@
                 android:id="@+id/end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/start_date"
+                android:layout_alignRight="@+id/start_date"
                 android:layout_below="@+id/start_date"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="End date (d/m/y)"
                 android:inputType="date" />
+            
+            <Button
+                 android:id="@+id/new_event_submit_button"
+                 android:layout_width="match_parent"
+                 android:layout_below="@+id/newEvent_radioButtonGroup"
+                 android:layout_marginTop="10dp"
+                 android:layout_height="wrap_content"
+                 android:text="Submit" />
 
             <RadioGroup
                 android:id="@+id/newEvent_radioButtonGroup"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/end_date"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
-                android:layout_centerHorizontal="true">
-                
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="23dp"
+                android:paddingLeft="10dp" >
 
                 <RadioButton
                     android:id="@+id/radioButton_private"
@@ -148,14 +157,6 @@
                     android:layout_centerHorizontal="true"
                     android:text="Geolocated" />
             </RadioGroup>
-            
-            <Button
-                 android:id="@+id/new_event_submit_button"
-                 android:layout_width="match_parent"
-                 android:layout_below="@+id/newEvent_radioButtonGroup"
-                 android:layout_marginTop="10dp"
-                 android:layout_height="wrap_content"
-                 android:text="Submit" />
             
         </RelativeLayout>
 
