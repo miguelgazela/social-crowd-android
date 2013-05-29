@@ -1,17 +1,9 @@
 package pt.up.fe.socialcrowd.activities;
 
-import com.quickblox.core.QBCallback;
-import com.quickblox.core.result.Result;
-import com.quickblox.module.auth.QBAuth;
-
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
-import pt.up.fe.socialcrowd.API.RequestException;
-import pt.up.fe.socialcrowd.logic.Session;
 import pt.up.fe.socialcrowd.managers.DataHolder;
-import pt.up.fe.socialcrowd.managers.QBManager;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,6 +17,7 @@ public abstract class DashboardActivity extends Activity {
 	static public final String LIST_EVENTS = "LIST_EVENTS";
 	static public final String LIST_SUBSCRIPTIONS = "LIST_SUBSCRIPTIONS";
 	static public final String LIST_MY_EVENTS = "LIST_MY_EVENTS";
+	static public final String LIST_SEARCH_RESULTS = "LIST_SEARCH_RESULTS";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

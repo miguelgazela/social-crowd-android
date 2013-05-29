@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import pt.up.fe.socialcrowd.logic.*;
 
 public abstract class Request {
@@ -73,6 +75,7 @@ public abstract class Request {
 				response = httpclient.execute(httppost);
 				break;
 			case GET:
+				Log.i("doRequest()", url);
 				HttpGet httpget = new HttpGet(url);
 				if (headers != null && !headers.isEmpty()) {
 					for (int i = 0; i < headers.size(); i++) {

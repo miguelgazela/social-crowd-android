@@ -1,17 +1,11 @@
 package pt.up.fe.socialcrowd.activities;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-
-import org.json.JSONException;
 
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
-import pt.up.fe.socialcrowd.API.RequestException;
 import pt.up.fe.socialcrowd.helpers.EventsListAdapter;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
-import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,6 +22,7 @@ public class EventsListActivity extends DashboardActivity {
 	private String listingType;
 	ProgressDialog progressDialog;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,24 +43,37 @@ public class EventsListActivity extends DashboardActivity {
 			getUserEvents();
 		} else if(listingType.equalsIgnoreCase(DashboardActivity.LIST_SUBSCRIPTIONS)) {
 			getUserSubscriptions();
-		} else{
-			String name = getIntent().getStringExtra("SEARCH_QUERY_NAME");
-			String category = getIntent().getStringExtra("SEARCH_QUERY_CATEGORY");
+		} else {
+			final String name = getIntent().getStringExtra("SEARCH_QUERY_NAME");
+			final String category = getIntent().getStringExtra("SEARCH_QUERY_CATEGORY");
 			String allTags = getIntent().getStringExtra("SEARCH_QUERY_ALLTAGS");
 			
-			String tagArray[] = allTags.split(",");
-			ArrayList<String> tags = new ArrayList<String>();
+			ArrayList<String> tags = null;
+			if(allTags != null) {
+				String tagArray[] = allTags.split(",");
+				tags = new ArrayList<String>();
+
+				for(String s : tagArray){	
+					tags.add(s);			
+				}
+			}
 			
-			for(String s : tagArray){	
-				tags.add(s);			
-			}
-		
-			try {
-				events = Request.getEventsBySearch(null, BaseEvent.PUBLIC , name, category, tags);
-				insertContent();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			new AsyncTask<ArrayList<String>, Void, Void>() {
+				@Override
+				protected Void doInBackground(ArrayList<String>... params) {
+					try {
+						events = Request.getEventsBySearch(null, null, name, category, params[0]);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void result) {
+					insertContent();
+				}
+			}.execute(tags);
 		} 
 	}
 	
