@@ -4,12 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
-import pt.up.fe.socialcrowd.logic.DateParser;
 import pt.up.fe.socialcrowd.logic.Location;
 import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.ProgressDialog;
@@ -115,8 +113,10 @@ public class NewEventActivity extends DashboardActivity {
 			
 				Date ini = null;
 				Date end = null;
-				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 				try {
+
+					SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
 					ini = dateFormat.parse(params[4]);
 					end = dateFormat.parse(params[5]);
 				} catch (ParseException e1) {

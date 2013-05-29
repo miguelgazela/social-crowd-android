@@ -107,14 +107,6 @@
                 android:hint="End date (m/d/y)"
                 android:inputType="date" />
             
-            <Button
-                 android:id="@+id/new_event_submit_button"
-                 android:layout_width="match_parent"
-                 android:layout_below="@+id/newEvent_radioButtonGroup"
-                 android:layout_marginTop="10dp"
-                 android:layout_height="wrap_content"
-                 android:text="Submit" />
-
             <RadioGroup
                 android:id="@+id/newEvent_radioButtonGroup"
                 android:layout_width="wrap_content"
@@ -152,7 +144,6 @@
 
             </RadioGroup>
             
-
             <ImageButton
                 style="@style/TitleBarLogo"
                 android:layout_height="wrap_content"
@@ -162,7 +153,6 @@
                 android:layout_centerHorizontal="true"
                 android:onClick="onClickCreateEvent"
                 android:src="@drawable/add_event_btn" />
-
 
         </RelativeLayout>
 
