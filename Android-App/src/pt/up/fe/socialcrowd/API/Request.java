@@ -129,7 +129,7 @@ public abstract class Request {
 		String result = object.getString("result");
 		if (result.equals("success")) {
 			JSONObject data = object.getJSONObject("data");
-			return new Session(data.getString("sid"));
+			return new Session(data.getString("sid"),data.getInt("user_id"));
 		}
 		else {
 			throw new RequestException(object.getString("data"));
