@@ -2,6 +2,7 @@ package pt.up.fe.socialcrowd.API;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public abstract class Request {
 				if (i != 0) {
 					url += "&";
 				}
-				url += nameValuePairs.get(i).getName() + "=" + nameValuePairs.get(i).getValue();
+				url += URLEncoder.encode(nameValuePairs.get(i).getName(), "UTF-8") + "=" + URLEncoder.encode(nameValuePairs.get(i).getValue(), "UTF-8");
 			}
 		}
 
