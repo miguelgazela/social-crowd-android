@@ -17,6 +17,7 @@
         <TextView style="@style/TitleBarText" />
 
         <ImageButton
+            android:id="@+id/subscribe_button"
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_delete"
             android:onClick="onClickSubscribe"

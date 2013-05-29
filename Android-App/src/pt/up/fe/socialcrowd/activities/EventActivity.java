@@ -62,10 +62,8 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 	}
 
 	private void checkSubscribed() {
-
 		subscriptionButton = (Button) findViewById(R.id.subscribe_button);
 		isSubscribed = getIntent().getBooleanExtra("subscribed_event", false);
-
 	}
 
 	private void displayEvent() {
