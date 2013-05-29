@@ -29,6 +29,7 @@
     <string name="title_activity_back">back</string>
     <string name="title_activity_refresh">refresh</string>
     <string name="title_activity_delete">delete</string>
+    <string name="title_activity_location">Search for Location</string>
 
     <!-- Others -->
     <string name="addNewEvent">Add Event</string>
