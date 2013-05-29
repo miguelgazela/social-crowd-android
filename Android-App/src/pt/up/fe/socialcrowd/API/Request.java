@@ -408,4 +408,20 @@ public abstract class Request {
 			throw new RequestException(object.getString("data"));
 	}
 	
+	public static ArrayList<Comment> getCommentsAfterDate(int eventid, Date data) throws JSONException, ParseException, RequestException, InvalidParameterException, IllegalStateException, IOException {
+		JSONObject object = doRequest(API_COMMENTS_URL+"?eventid="+Integer.toString(eventid)+"&created_at="+DateParser.parseDate(data),GET,null,null);
+
+		String result = object.getString("result");
+		if (result.equals("success")) {
+			ArrayList<Comment> comments = new ArrayList<Comment>();
+			JSONArray arraycomments = object.getJSONArray("data");
+			for (int i = 0 ;i < arraycomments.length(); i++) {
+				comments.add(Comment.parseJSON(arraycomments.getJSONObject(i)));
+			}
+			return comments;
+		}
+		else
+			throw new RequestException(object.getString("data"));
+	}
+	
 }
