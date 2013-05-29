@@ -59,6 +59,7 @@ public class CommentsListAdapter extends BaseAdapter {
 		}
 		
 		holder.commentUsername.setText("username_here");
+		
 		holder.commentDate.setText(DateParser.getPrettyDate(comments.get(pos).getDate()));
 		holder.commentBody.setText(comments.get(pos).getText());
 		return convertView;

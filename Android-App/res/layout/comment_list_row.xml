@@ -14,6 +14,7 @@
         android:layout_alignLeft="@+id/comment_body"
         android:layout_toLeftOf="@+id/comment_date"
         android:textStyle="bold"
+        android:text="username_here"
         android:typeface="sans" />
     
     <TextView
@@ -23,6 +24,7 @@
         android:layout_alignBaseline="@+id/comment_username"
         android:layout_alignBottom="@+id/comment_username"
         android:layout_alignParentRight="true"
+        android:text="4 May 2013 23:20"
         android:textColor="#343434"
         android:textSize="10sp" />
  
@@ -32,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/comment_username"
         android:layout_marginTop="5dip"
+        android:text="comment bodyh iuwhei uhewih fuwehfiu ewiufh iuewhuif ewui iuewhgiuewiu weugweoif iowej gohewogihweig hweuweo ijweoifh iwuehfy g"
         android:textColor="#343434" />
     
 </RelativeLayout>

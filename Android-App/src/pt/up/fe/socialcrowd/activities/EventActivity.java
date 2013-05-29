@@ -9,8 +9,10 @@ import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
 import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
 import pt.up.fe.socialcrowd.managers.DataHolder;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,6 +42,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 		progressDialog.setCancelable(false);
 		progressDialog.setMessage(getResources().getString(R.string.please_wait));
 		progressDialog.show();
+		
 		displayEvent();
 	}
 	
@@ -66,6 +70,12 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 					eventCategory = (TextView) findViewById(R.id.event_category);
 					inputComment = (EditText) findViewById(R.id.inputComment);
 					
+					// display delete icon if event is from this user
+					if(event.getAuthorId() == DataHolder.getCurrentUserSession().getUser_id()) {
+						ImageButton deleteBtn = (ImageButton) findViewById(R.id.deleteEvent);
+						deleteBtn.setVisibility(View.VISIBLE);
+					}
+					
 					// this is to update the comments when you try to add a new one
 					inputComment.setOnClickListener(EventActivity.this);
 					
@@ -92,14 +102,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 		
 		if(comments != null) {
 			if(comments.size() != 0) {
-				ImageView separator = (ImageView) findViewById(R.id.commentsSeparator);
-				if(separator != null) {
-					separator.setVisibility(View.VISIBLE);
-				}
-				TextView commentsTitle = (TextView) findViewById(R.id.commentsTitle);
-				if(commentsTitle != null) {
-					commentsTitle.setVisibility(View.VISIBLE);
-				}
+				displayCommentInfo();
 			}
 			
 			final ListView commentsList = (ListView) findViewById(R.id.commentsList);
@@ -138,6 +141,9 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 						InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 						imm.hideSoftInputFromWindow(inputComment.getWindowToken(), 0);
 						
+						// make comment stuff visible
+						displayCommentInfo();
+						
 						// add comment to the list
 						final ListView commentsList = (ListView) findViewById(R.id.commentsList);
 						((CommentsListAdapter)commentsList.getAdapter()).addItem(result);
@@ -149,7 +155,17 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 		} else {
 			Toast.makeText(getBaseContext(), "Empty comment. Please write something", Toast.LENGTH_SHORT).show();
 		}
-		
+	}
+	
+	private void displayCommentInfo() {
+		ImageView separator = (ImageView) findViewById(R.id.commentsSeparator);
+		if(separator != null) {
+			separator.setVisibility(View.VISIBLE);
+		}
+		TextView commentsTitle = (TextView) findViewById(R.id.commentsTitle);
+		if(commentsTitle != null) {
+			commentsTitle.setVisibility(View.VISIBLE);
+		}
 	}
 
 	public void onClickBack(View v) {
@@ -158,6 +174,61 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 	
 	public void onClickRefresh(View v) {
 		// update comments here!
+	}
+	
+	public void onClickDelete(View v) {
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+		// set title
+		alertDialogBuilder.setTitle("Delete event");
+
+		// set dialog message
+		alertDialogBuilder
+		.setMessage("Are you sure you want to delete this event?")
+		.setCancelable(false)
+		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+				progressDialog.show();
+				
+				new AsyncTask<Void, Void, Boolean>() {
+					@Override
+					protected Boolean doInBackground(Void... params) {
+						try {
+							Request.deleteEvent(DataHolder.getCurrentUserSession().getSession_id(), event.getId());
+							return true;
+						} catch (Exception e) {
+							e.printStackTrace();
+							return false;
+						}
+					}
+
+					@Override
+					protected void onPostExecute(Boolean result) {
+						progressDialog.dismiss();
+						if(result) {
+							goHome(EventActivity.this);
+						} else {
+							Toast.makeText(getBaseContext(), "Error deleting event", Toast.LENGTH_SHORT).show();
+						}
+					}
+				}.execute();
+			}
+		})
+		.setNegativeButton("No",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				// if this button is clicked, just close
+				// the dialog box and do nothing
+				dialog.cancel();
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
 	}
 
 	@Override

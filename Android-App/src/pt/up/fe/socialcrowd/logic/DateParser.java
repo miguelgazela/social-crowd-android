@@ -1,10 +1,7 @@
 package pt.up.fe.socialcrowd.logic;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-
-import android.text.format.DateFormat;
 
 
 public abstract class DateParser {
