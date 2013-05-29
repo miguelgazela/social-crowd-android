@@ -39,16 +39,20 @@ public class Comment {
 	}
 
 	public static Comment parseJSON(JSONObject json) throws JSONException, ParseException {
-		JSONArray arrayupvotes = json.getJSONArray("upvotes");
-		JSONArray arraydownvotes = json.getJSONArray("downvotes");
 		
-		ArrayList<Upvote> upvotes = new ArrayList<Upvote> ();
-		ArrayList<Downvote> downvotes = new ArrayList<Downvote> ();
-		for (int i = 0; i < arrayupvotes.length(); i++) {
-			upvotes.add(Upvote.parseJSON(arrayupvotes.getJSONObject(i)));
-		}
-		for (int i = 0; i < arraydownvotes.length(); i++) {
-			downvotes.add(Downvote.parseJSON(arraydownvotes.getJSONObject(i)));
+		ArrayList<Upvote> upvotes = new ArrayList<Upvote>();
+		ArrayList<Downvote> downvotes = new ArrayList<Downvote>();
+		
+		if(!json.isNull("upvotes") && !json.isNull("downvotes")) {
+			JSONArray arrayupvotes = json.getJSONArray("upvotes");
+			JSONArray arraydownvotes = json.getJSONArray("downvotes");
+
+			for (int i = 0; i < arrayupvotes.length(); i++) {
+				upvotes.add(Upvote.parseJSON(arrayupvotes.getJSONObject(i)));
+			}
+			for (int i = 0; i < arraydownvotes.length(); i++) {
+				downvotes.add(Downvote.parseJSON(arraydownvotes.getJSONObject(i)));
+			}
 		}
 		return new Comment(json.getInt("id"),json.getInt("social_user"),json.getInt("eventid"), json.getString("input"),DateParser.parseString(json.getString("created_at")),upvotes,downvotes);
 	}

@@ -22,14 +22,14 @@
             android:onClick="onClickRefresh"
             android:src="@drawable/title_refresh" />
         
-        <!--
         <ImageButton
             style="@style/TitleBarAction"
-            android:contentDescription="@string/title_activity_about"
-            android:onClick="onClickAbout"
-            android:src="@drawable/title_about" />
-        -->
-
+            android:id="@+id/deleteEvent"
+            android:contentDescription="@string/title_activity_delete"
+            android:onClick="onClickDelete"
+            android:visibility="gone"
+            android:src="@drawable/title_delete" />
+        
         <ImageButton
             style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_search"
@@ -39,8 +39,10 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/eventLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
         android:padding="5dp" >
 
         <TextView
@@ -72,8 +74,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/event_location"
-            android:layout_marginTop="7dp"
             android:layout_below="@+id/event_location"
+            android:layout_marginTop="7dp"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
@@ -81,61 +83,59 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/event_description"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="25dp"
             android:layout_below="@+id/event_description"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="5dp"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-        
+
         <ListView
             android:id="@+id/commentsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/inputComment"
             android:layout_below="@+id/event_tags"
-            android:layout_marginBottom="5dp"
-            android:layout_centerHorizontal="true" >
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp" >
         </ListView>
 
         <ImageView
             android:id="@+id/commentsSeparator"
             style="@style/EventCommentsSeparator"
-            android:visibility="invisible"
             android:layout_above="@+id/commentsList"
-            android:layout_alignLeft="@+id/commentsList" />
+            android:layout_alignLeft="@+id/commentsList"
+            android:visibility="invisible" />
 
         <EditText
             android:id="@+id/inputComment"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/commentsList"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/button1"
+            android:layout_toLeftOf="@+id/add_comment_btn"
             android:ems="10"
             android:inputType="textMultiLine" >
         </EditText>
-
-        <Button
-            android:id="@+id/button1"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="addComment"
-            android:layout_alignBaseline="@+id/inputComment"
-            android:layout_alignBottom="@+id/inputComment"
-            android:layout_toLeftOf="@+id/event_category"
-            android:text="Comment" />
 
         <TextView
             android:id="@+id/commentsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/commentsList"
-            android:visibility="invisible"
             android:layout_centerHorizontal="true"
             android:text="Comments"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/background_blue" />
+            android:textColor="@color/background_blue"
+            android:visibility="invisible" />
 
+        <ImageButton
+            android:id="@+id/add_comment_btn"
+            style="@style/TitleBarAction"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/commentsList"
+            android:layout_alignTop="@+id/inputComment"
+            android:background="@null"
+            android:onClick="addComment"
+            android:src="@drawable/add_comment_btn" />
     </RelativeLayout>
 
 </LinearLayout>

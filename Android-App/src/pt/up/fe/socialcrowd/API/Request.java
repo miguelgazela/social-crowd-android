@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -20,6 +21,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +70,7 @@ public abstract class Request {
 			case POST:
 				HttpPost httppost = new HttpPost(url);
 				if (nameValuePairs != null && !nameValuePairs.isEmpty())
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs,HTTP.UTF_8));
 				if (headers != null && !headers.isEmpty()) {
 					for (int i = 0; i < headers.size(); i++) {
 						httppost.addHeader(headers.get(i).getName(),headers.get(i).getValue());
@@ -97,7 +100,7 @@ public abstract class Request {
 			case PUT:
 				HttpPut httpput = new HttpPut(url);
 				if (nameValuePairs != null && !nameValuePairs.isEmpty())
-					httpput.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					httpput.setEntity(new UrlEncodedFormEntity(nameValuePairs,HTTP.UTF_8));
 				if (headers != null && !headers.isEmpty()) {
 					for (int i = 0; i < headers.size(); i++) {
 						httpput.addHeader(headers.get(i).getName(),headers.get(i).getValue());
@@ -113,6 +116,10 @@ public abstract class Request {
 		}
 
 		if (response == null || response.getStatusLine().getStatusCode() != 200) {
+			HttpEntity responseEntity = response.getEntity();
+			if(responseEntity!=null) {
+			    Log.i("Request.doRequest", EntityUtils.toString(responseEntity));
+			}
 			throw new IllegalArgumentException();
 		}
 
@@ -403,6 +410,22 @@ public abstract class Request {
 				events.add(BaseEvent.parseJSON(arrayevents.getJSONObject(i)));
 			}
 			return events;		 
+		}
+		else
+			throw new RequestException(object.getString("data"));
+	}
+	
+	public static ArrayList<Comment> getCommentsAfterDate(int eventid, Date data) throws JSONException, ParseException, RequestException, InvalidParameterException, IllegalStateException, IOException {
+		JSONObject object = doRequest(API_COMMENTS_URL+"?eventid="+Integer.toString(eventid)+"&created_at="+DateParser.parseDate(data),GET,null,null);
+
+		String result = object.getString("result");
+		if (result.equals("success")) {
+			ArrayList<Comment> comments = new ArrayList<Comment>();
+			JSONArray arraycomments = object.getJSONArray("data");
+			for (int i = 0 ;i < arraycomments.length(); i++) {
+				comments.add(Comment.parseJSON(arraycomments.getJSONObject(i)));
+			}
+			return comments;
 		}
 		else
 			throw new RequestException(object.getString("data"));

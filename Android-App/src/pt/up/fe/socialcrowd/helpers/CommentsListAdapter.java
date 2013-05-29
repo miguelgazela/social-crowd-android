@@ -3,7 +3,6 @@ package pt.up.fe.socialcrowd.helpers;
 import java.util.ArrayList;
 
 import pt.up.fe.socialcrowd.R;
-import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DateParser;
 import android.content.Context;
@@ -31,6 +30,11 @@ public class CommentsListAdapter extends BaseAdapter {
 	@Override
 	public Object getItem(int pos) {
 		return comments.get(pos);
+	}
+	
+	public void addItem(Comment newComment) {
+		comments.add(newComment);
+		notifyDataSetChanged();
 	}
 
 	@Override
