@@ -50,7 +50,7 @@ public class EventsListActivity extends DashboardActivity {
 			
 			ArrayList<String> tags = null;
 			if(allTags != null) {
-				String tagArray[] = allTags.split(",");
+				String tagArray[] = allTags.split(" ");
 				tags = new ArrayList<String>();
 
 				for(String s : tagArray){	
@@ -76,6 +76,7 @@ public class EventsListActivity extends DashboardActivity {
 			}.execute(tags);
 		} 
 	}
+	
 	
 	private void getUserSubscriptions() {
 		Log.i("EventsListActivity - getUserSubscriptions()", "Requesting user subscriptions");

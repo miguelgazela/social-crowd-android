@@ -1,12 +1,14 @@
 package pt.up.fe.socialcrowd.activities;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
 import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
+import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EventActivity extends DashboardActivity implements OnClickListener {
 	
@@ -61,6 +64,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 					eventCategory = (TextView) findViewById(R.id.event_category);
 					inputComment = (EditText) findViewById(R.id.inputComment);
 					
+					// this is to update the comments when you try to add a new one
 					inputComment.setOnClickListener(EventActivity.this);
 					
 					progressDialog.dismiss();
@@ -102,6 +106,38 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 	}
 	
 	public void addComment(View v) {
+		
+		// get comment text and validate it
+		EditText comment = (EditText) findViewById(R.id.inputComment);
+		if(comment.getText().toString().length() != 0) {
+			new AsyncTask<String, Void, Comment>() {
+
+				@Override
+				protected Comment doInBackground(String... params) {
+					try {
+						Comment newComment = Request.createComment(DataHolder.getCurrentUserSession().getSession_id(), event.getId(), params[0], new Date());
+						return newComment;
+					} catch (Exception e) {
+						e.printStackTrace();
+						return null;
+					}
+				}
+				
+				@Override
+				protected void onPostExecute(Comment result) {
+					if(result != null) {
+						// clear the input and add the comment to the list
+						
+						final ListView commentsList = (ListView) findViewById(R.id.commentsList);
+						((CommentsListAdapter)commentsList.getAdapter()).addItem(result);
+					} else {
+						Toast.makeText(getBaseContext(), "Error adding comment", Toast.LENGTH_SHORT).show();
+					}
+				}
+			}.execute(comment.getText().toString());
+		} else {
+			Toast.makeText(getBaseContext(), "Empty comment. Please write something", Toast.LENGTH_SHORT).show();
+		}
 		
 	}
 

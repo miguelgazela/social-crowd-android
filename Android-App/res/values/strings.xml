@@ -28,6 +28,7 @@
     <string name="title_activity_home">SocialCrowd</string>
     <string name="title_activity_back">back</string>
     <string name="title_activity_refresh">refresh</string>
+    <string name="title_activity_delete">delete</string>
 
     <!-- Others -->
     <string name="addNewEvent">Add Event</string>

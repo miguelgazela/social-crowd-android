@@ -21,12 +21,6 @@
 
         <ImageButton
             style="@style/TitleBarAction"
-            android:contentDescription="@string/title_activity_about"
-            android:onClick="onClickAbout"
-            android:src="@drawable/title_about"/>
-
-        <ImageButton
-            style="@style/TitleBarAction"
             android:contentDescription="@string/title_activity_search"
             android:onClick="onClickSearch"
             android:src="@drawable/title_search"/>
@@ -71,7 +65,7 @@
             <EditText
                 android:id="@+id/event_description"
                 android:layout_width="250dp"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/event_category"
                 android:layout_below="@+id/event_category"
                 android:layout_marginTop="10dp"
@@ -147,16 +141,19 @@
                     android:layout_below="@id/radioButton_public"
                     android:layout_centerHorizontal="true"
                     android:text="Geolocated" />
+
             </RadioGroup>
             
-            <Button
-                 android:id="@+id/new_event_submit_button"
-                 android:layout_width="match_parent"
-                 android:layout_below="@+id/newEvent_radioButtonGroup"
-                 android:layout_marginTop="10dp"
-                 android:layout_height="wrap_content"
-                 android:text="Submit" />
-            
+            <ImageButton
+                style="@style/TitleBarLogo"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_below="@+id/newEvent_radioButtonGroup"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:onClick="onClickCreateEvent"
+                android:src="@drawable/add_event_btn" />
+
         </RelativeLayout>
 
         </ScrollView>

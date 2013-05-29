@@ -23,23 +23,11 @@ import com.quickblox.module.auth.QBAuth;
 
 public class NewEventActivity extends DashboardActivity {
 
-	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event);
 		setTitleFromActivityLabel(R.id.title_text);
-
-		Button submit = (Button) findViewById(R.id.new_event_submit_button);
-		submit.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				addEvent();
-				startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-			}
-		});
 	}
 
 	private void addEvent() {
@@ -62,18 +50,15 @@ public class NewEventActivity extends DashboardActivity {
 				RadioButton selected = (RadioButton) findViewById(rbg.getCheckedRadioButtonId());
 				String type = selected.getText().toString();
 				int eventType = 0;
-
-				if(type == "Private"){
+				
+				if(type.equalsIgnoreCase("Public")) {
+					eventType = BaseEvent.PUBLIC;
+				} else if(type.equalsIgnoreCase("Private")) {
 					eventType = BaseEvent.PRIVATE;
-				}else{
-					if(type == "Public"){
-						eventType = BaseEvent.PUBLIC;
-					}else{
-						if(type == "Geolocated"){
-							eventType = BaseEvent.GEOLOCATED;
-						}
-					}
+				} else if(type.equalsIgnoreCase("Geolocated")) {
+					eventType = BaseEvent.GEOLOCATED;
 				}
+
 
 //				DatePicker iniDatePicker = (DatePicker) findViewById(R.id.begin_datepicker);
 //				DatePicker endDatePicker = (DatePicker) findViewById(R.id.end_datepicker);
