@@ -3,8 +3,6 @@ package pt.up.fe.socialcrowd.activities;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
-
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
@@ -16,21 +14,18 @@ import pt.up.fe.socialcrowd.logic.Subscription;
 import pt.up.fe.socialcrowd.logic.Upvote;
 import pt.up.fe.socialcrowd.logic.Vote;
 import pt.up.fe.socialcrowd.managers.DataHolder;
-import android.R.integer;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore.Video;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +39,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 	private ProgressDialog progressDialog = null;
 	private TextView eventName, eventLocation, eventDescription, eventTags, eventCategory;
 	private EditText inputComment;
-	private Button subscriptionButton;
+	private ImageButton subscriptionButton;
 	private boolean isSubscribed;
 
 	@Override
@@ -62,7 +57,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 	}
 
 	private void checkSubscribed() {
-		subscriptionButton = (Button) findViewById(R.id.subscribe_button);
+		subscriptionButton = (ImageButton) findViewById(R.id.subscribe_button);
 		isSubscribed = getIntent().getBooleanExtra("subscribed_event", false);
 	}
 
