@@ -56,8 +56,8 @@ public class ChooseLocationActivity extends FragmentActivity implements Connecti
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
 					String addr = v.getText().toString();
-					 InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			            in.hideSoftInputFromWindow(v.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					in.hideSoftInputFromWindow(v.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 					if(addr.equals("")){
 						Toast.makeText(getBaseContext(), "Empty Address!", Toast.LENGTH_SHORT).show();
 						return false;
@@ -165,7 +165,7 @@ public class ChooseLocationActivity extends FragmentActivity implements Connecti
 	}
 	@Override
 	public void onLocationChanged(Location arg0) {
-		
+
 
 	}
 
@@ -173,7 +173,7 @@ public class ChooseLocationActivity extends FragmentActivity implements Connecti
 		EditText max = (EditText) findViewById(R.id.search_location_input_field);
 		String addr = max.getText().toString();
 		InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        in.hideSoftInputFromWindow(v.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+		in.hideSoftInputFromWindow(v.getApplicationWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 		if(addr.equals("")){
 			Toast.makeText(getBaseContext(), "Empty Address!", Toast.LENGTH_SHORT).show();
 			return;
@@ -205,18 +205,20 @@ public class ChooseLocationActivity extends FragmentActivity implements Connecti
 
 	}
 	@Override
-	public void onProviderDisabled(String arg0) {
+	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void onProviderEnabled(String arg0) {
+	public void onProviderEnabled(String provider) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 }
