@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 
 public class Comment {
 	private String text;
@@ -41,8 +39,6 @@ public class Comment {
 	}
 
 	public static Comment parseJSON(JSONObject json) throws JSONException, ParseException {
-		
-		Log.i("Comment.parseJSON()", json.toString());
 		
 		ArrayList<Upvote> upvotes = new ArrayList<Upvote>();
 		ArrayList<Downvote> downvotes = new ArrayList<Downvote>();

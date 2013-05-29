@@ -39,6 +39,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/eventLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true"

@@ -10,11 +10,13 @@ import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
 import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -110,6 +112,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 		// get comment text and validate it
 		EditText comment = (EditText) findViewById(R.id.inputComment);
 		if(comment.getText().toString().length() != 0) {
+			progressDialog.show();
 			new AsyncTask<String, Void, Comment>() {
 
 				@Override
@@ -125,9 +128,17 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 				
 				@Override
 				protected void onPostExecute(Comment result) {
+					progressDialog.dismiss();
 					if(result != null) {
-						// clear the input and add the comment to the list
+						// clear the input
+						inputComment.setText("");
+						inputComment.clearFocus();
 						
+						// hide the keyboard
+						InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(inputComment.getWindowToken(), 0);
+						
+						// add comment to the list
 						final ListView commentsList = (ListView) findViewById(R.id.commentsList);
 						((CommentsListAdapter)commentsList.getAdapter()).addItem(result);
 					} else {
