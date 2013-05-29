@@ -99,6 +99,7 @@
         <ImageView
             android:id="@+id/commentsSeparator"
             style="@style/EventCommentsSeparator"
+            android:visibility="invisible"
             android:layout_above="@+id/commentsList"
             android:layout_alignLeft="@+id/commentsList" />
 
@@ -118,6 +119,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="addComment"
             android:layout_alignBaseline="@+id/inputComment"
             android:layout_alignBottom="@+id/inputComment"
             android:layout_toLeftOf="@+id/event_category"
@@ -128,6 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/commentsList"
+            android:visibility="invisible"
             android:layout_centerHorizontal="true"
             android:text="Comments"
             android:textAppearance="?android:attr/textAppearanceSmall"

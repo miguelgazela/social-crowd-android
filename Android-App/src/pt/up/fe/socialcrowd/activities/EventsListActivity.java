@@ -59,43 +59,24 @@ public class EventsListActivity extends DashboardActivity {
 			for(String s : tagArray){	
 				tags.add(s);			
 			}
-			
 		
 			try {
 				events = Request.getEventsBySearch(null, BaseEvent.PUBLIC , name, category, tags);
 				insertContent();
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (RequestException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-		
-		
-			
 		} 
 	}
 	
 	private void getUserSubscriptions() {
 		Log.i("EventsListActivity - getUserSubscriptions()", "Requesting user subscriptions");
 
-		// getting stuff from the internet must be done in another thread
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-					events = Request.getEventsBySubscriberID(DataHolder.getSignInQbUser().getId());
+//					events = Request.getEventsBySubscriberID(DataHolder.getSignInQbUser().getId());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -112,12 +93,11 @@ public class EventsListActivity extends DashboardActivity {
 	private void getUserEvents() {
 		Log.i("EventsListActivity - getUserEvents()", "Requesting user events");
 		
-		// getting stuff from the internet must be done in another thread
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-					events = Request.getEventsByOwnerID(DataHolder.getSignInQbUser().getId());
+//					events = Request.getEventsByOwnerID(DataHolder.getSignInQbUser().getId());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -133,7 +113,6 @@ public class EventsListActivity extends DashboardActivity {
 	private void getAllEvents() {
 		Log.i("EventsListActivity - getAllEvents()", "Requesting all events");
 		
-		// getting stuff from the internet must be done in another thread
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {

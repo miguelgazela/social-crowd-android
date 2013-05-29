@@ -2,11 +2,14 @@ package pt.up.fe.socialcrowd.activities;
 
 
 import pt.up.fe.socialcrowd.R;
+import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.definitions.Consts;
 import pt.up.fe.socialcrowd.definitions.QBQueries;
+import pt.up.fe.socialcrowd.logic.Session;
 import pt.up.fe.socialcrowd.managers.DataHolder;
 import pt.up.fe.socialcrowd.managers.QBManager;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -70,7 +73,7 @@ public class MainScreenActivity extends DashboardActivity {
 	
 	public void onClickSignIn(View v) {
 		progressDialog.show();
-		QBManager.signInUser(username.getText().toString(), password.getText().toString(), new SignInQBCallBack(), QBQueries.QB_QUERY_SIGN_IN_USER);
+		new SigninTask().execute(username.getText().toString(), password.getText().toString());
 	}
 
 	public void onClickSignUp(View v) {
@@ -84,7 +87,7 @@ public class MainScreenActivity extends DashboardActivity {
 				if (result.isSuccess()) {
 					switch (qbQueryType) {
 					case QB_QUERY_SIGN_UP_USER:
-						QBManager.signInUser(username.getText().toString(), password.getText().toString(), new SignInQBCallBack(), QBQueries.QB_QUERY_SIGN_IN_USER);
+						new SigninTask().execute(username.getText().toString(), password.getText().toString());
 						break;
 					default:
 						break;
@@ -93,42 +96,11 @@ public class MainScreenActivity extends DashboardActivity {
 					// print errors that came from server
 					Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
 				}
-				progressDialog.hide();
 			}
-
 			@Override public void onComplete(Result result) {}
 		}, QBQueries.QB_QUERY_SIGN_UP_USER);
 	}
 	
-	private class SignInQBCallBack implements QBCallback {
-
-		@Override
-		public void onComplete(Result arg0) {}
-
-		@Override
-		public void onComplete(Result result, Object context) {
-			QBQueries qbQueryType = (QBQueries) context;
-
-			if (result.isSuccess()) {
-				switch (qbQueryType) {
-				case QB_QUERY_SIGN_IN_USER:
-					setResult(RESULT_OK);
-					QBUserResult qbUserResult = (QBUserResult) result;
-					DataHolder.setSignInQbUser(qbUserResult.getUser());
-					Toast.makeText(getBaseContext(), getResources().getString(R.string.user_successfully_sign_in), Toast.LENGTH_LONG).show();
-					goToHomeActivity();
-					finish(); 
-					break;
-				default:
-					break;
-				}
-			} else { // print errors that came from server
-				Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
-			}
-			progressDialog.hide();
-		}
-	}
-
 	public void onClickSignUpHere(View v) {
 		manageButtons(View.INVISIBLE, View.VISIBLE, false);
 	}
@@ -187,5 +159,32 @@ public class MainScreenActivity extends DashboardActivity {
 		if((button = (Button) findViewById(R.id.signin_btn)) != null) {
 			button.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private class SigninTask extends AsyncTask<String, Void, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(String... userInfo) {
+			try {
+				Session currentUserSession = Request.createSession(QBAuth.getBaseService().getToken(), userInfo[0], userInfo[1]);
+				DataHolder.setCurrentUserSession(currentUserSession);
+				return true;
+			} catch(Exception e) {
+				return false;
+			}
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			progressDialog.dismiss();
+			if(result) {
+				Toast.makeText(getBaseContext(), getResources().getString(R.string.user_successfully_sign_in), Toast.LENGTH_LONG).show();
+				goToHomeActivity();
+				finish();
+			} else {
+				Toast.makeText(getBaseContext(), "Error signing in user", Toast.LENGTH_LONG).show();
+			}
+		}
+
 	}
 }

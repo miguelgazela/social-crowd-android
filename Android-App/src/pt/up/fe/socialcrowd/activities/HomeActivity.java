@@ -20,11 +20,6 @@ public class HomeActivity extends DashboardActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i("HomeActivity - onDestroy()", "This activity is being destroyed");
-		// destroy session after app close
-		QBAuth.deleteSession(new QBCallback() {
-			@Override public void onComplete(Result arg0, Object arg1) {}
-			@Override public void onComplete(Result arg0) {}
-		});
 	}
 	protected void onPause () {
 	   super.onPause ();

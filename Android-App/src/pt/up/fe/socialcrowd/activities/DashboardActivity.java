@@ -2,13 +2,19 @@ package pt.up.fe.socialcrowd.activities;
 
 import com.quickblox.core.QBCallback;
 import com.quickblox.core.result.Result;
+import com.quickblox.module.auth.QBAuth;
 
 import pt.up.fe.socialcrowd.R;
+import pt.up.fe.socialcrowd.API.Request;
+import pt.up.fe.socialcrowd.API.RequestException;
+import pt.up.fe.socialcrowd.logic.Session;
+import pt.up.fe.socialcrowd.managers.DataHolder;
 import pt.up.fe.socialcrowd.managers.QBManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -87,18 +93,29 @@ public abstract class DashboardActivity extends Activity {
 			startActivity (new Intent(getApplicationContext(), SettingsActivity.class));
 			break;
 		case R.id.home_btn_logout :
-			QBManager.signOutUser(new QBCallback() {
+			new AsyncTask<Void, Void, Boolean>() {
 				@Override
-				public void onComplete(Result result, Object context) {
-					if(result.isSuccess()) {
-//						goToMainScreen(); TODO Create new mainscreen activity
-					} else {
-						// print errors that came from server
-	        			Toast.makeText(getBaseContext(), result.getErrors().get(0), Toast.LENGTH_SHORT).show();
+				protected Boolean doInBackground(Void... userInfo) {
+					try {
+						Request.deleteSession(DataHolder.getCurrentUserSession().getSession_id());
+						DataHolder.deleteCurrentUserSession();
+						return true;
+					} catch(Exception e) {
+						e.printStackTrace();
+						return false;
 					}
 				}
-				@Override public void onComplete(Result arg0) {}
-			});
+				
+				@Override
+				protected void onPostExecute(Boolean result) {
+					if(result) {
+						finish();
+						startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+					} else {
+						Toast.makeText(getBaseContext(), "Error logging out", Toast.LENGTH_LONG).show();
+					}
+				}
+			}.execute();
 			break;
 		default: 
 			break;

@@ -10,16 +10,20 @@ import pt.up.fe.socialcrowd.logic.DetailedEvent;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class EventActivity extends DashboardActivity {
+public class EventActivity extends DashboardActivity implements OnClickListener {
 	
 	private DetailedEvent event = null;
 	private ProgressDialog progressDialog = null;
 	private TextView eventName, eventLocation, eventDescription, eventTags, eventCategory;
+	private EditText inputComment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,9 @@ public class EventActivity extends DashboardActivity {
 					eventDescription = (TextView) findViewById(R.id.event_description);
 					eventTags = (TextView) findViewById(R.id.event_tags);
 					eventCategory = (TextView) findViewById(R.id.event_category);
+					inputComment = (EditText) findViewById(R.id.inputComment);
+					
+					inputComment.setOnClickListener(EventActivity.this);
 					
 					progressDialog.dismiss();
 					
@@ -93,6 +100,10 @@ public class EventActivity extends DashboardActivity {
 			commentsList.setAdapter(new CommentsListAdapter(this, comments));
 		}
 	}
+	
+	public void addComment(View v) {
+		
+	}
 
 	public void onClickBack(View v) {
 		finish();
@@ -100,5 +111,10 @@ public class EventActivity extends DashboardActivity {
 	
 	public void onClickRefresh(View v) {
 		// update comments here!
+	}
+
+	@Override
+	public void onClick(View v) {
+		Log.i("onClick", "it worked");
 	}
 }
