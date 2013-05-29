@@ -117,8 +117,9 @@ public class NewEventActivity extends DashboardActivity {
 				Date ini = null;
 				Date end = null;
 				try {
-					ini = DateParser.parseString(params[4]);
-					end = DateParser.parseString(params[5]);
+					SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+					ini = dateFormat.parse(params[4]);
+					end = dateFormat.parse(params[5]);
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 					return false;

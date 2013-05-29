@@ -168,6 +168,8 @@ public abstract class Request {
 	public static ArrayList<BaseEvent> getEvents() throws IllegalStateException, IOException, JSONException, RequestException, ParseException {
 		JSONObject object = doRequest(API_EVENTS_URL,GET,null,null);
 
+		Log.i("Request.getEvents()", object.toString());
+		
 		String result = object.getString("result");
 		if (result.equals("success")) {
 			ArrayList<BaseEvent> events = new ArrayList<BaseEvent>();
