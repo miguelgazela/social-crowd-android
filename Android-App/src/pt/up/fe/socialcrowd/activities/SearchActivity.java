@@ -26,24 +26,24 @@ public class SearchActivity extends DashboardActivity {
 	}
 
 	private void search(String name, String category, String allTags) {
-		if(name != "" && category != "" && allTags != ""){
-			Intent i = new Intent(getApplicationContext(), EventsListActivity.class);
-			
-			if(name.length() != 0) {
-				i.putExtra("SEARCH_QUERY_NAME", name);
-			}
-			if(category.length() != 0) {
-				i.putExtra("SEARCH_QUERY_CATEGORY", category);
-			}
-			if(allTags.length() != 0) {
-				i.putExtra("SEARCH_QUERY_ALLTAGS", allTags);
-			}
-			i.putExtra("LIST_TYPE", DashboardActivity.LIST_SEARCH_RESULTS);
 
-			startActivity(i);
+		Intent i = new Intent(getApplicationContext(), EventsListActivity.class);
+
+		if(name.length() != 0) {
+			i.putExtra("SEARCH_QUERY_NAME", name);
 		}
+		if(category.length() != 0) {
+			i.putExtra("SEARCH_QUERY_CATEGORY", category);
+		}
+		if(allTags.length() != 0) {
+			i.putExtra("SEARCH_QUERY_ALLTAGS", allTags);
+		}
+		i.putExtra("LIST_TYPE", DashboardActivity.LIST_SEARCH_RESULTS);
+
+		startActivity(i);
+
 	}
-	
+
 }
 
 

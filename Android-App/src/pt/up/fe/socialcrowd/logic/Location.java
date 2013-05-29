@@ -5,29 +5,29 @@ import org.json.JSONObject;
 
 public class Location {
 	private String text;
-	private String gps;
+	private GPSCoords gps;
 	private int id;
 	
-	public Location(int id, String t, String g) {
+	public Location(int id, String t, GPSCoords g) {
 		setText(t);
 		setGps(g);
 	}
 	
 	public static Location parseJSON(JSONObject json) throws JSONException {
-		return new Location(json.getInt("id"),json.getString("name"),json.getString("gps"));
+		return new Location(json.getInt("id"),json.getString("name"),GPSCoords.parseJSON(json.getJSONObject("gps")));
 	}
 
 	/**
 	 * @return the gps
 	 */
-	public String getGps() {
+	public GPSCoords getGps() {
 		return gps;
 	}
 
 	/**
 	 * @param gps the gps to set
 	 */
-	public void setGps(String gps) {
+	public void setGps(GPSCoords gps) {
 		this.gps = gps;
 	}
 

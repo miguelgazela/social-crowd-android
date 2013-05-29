@@ -4,21 +4,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
-import android.R.integer;
-import android.content.Intent;
+import pt.up.fe.socialcrowd.logic.DateParser;
+import pt.up.fe.socialcrowd.managers.DataHolder;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,6 +27,7 @@ public class NewEventActivity extends DashboardActivity {
 
 	private static final int INVALID_START_DATE = 1;
 	private static final int INVALID_END_DATE = 2;
+	ProgressDialog progressDialog;
 			
 	private EditText name, description, category, tags, start_date, end_date;
 	private RadioGroup rGroup;
@@ -47,6 +45,10 @@ public class NewEventActivity extends DashboardActivity {
 		start_date = (EditText) findViewById(R.id.start_date);
 		end_date = (EditText) findViewById(R.id.end_date);
 		rGroup = (RadioGroup) findViewById(R.id.newEvent_radioButtonGroup);	
+		
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setCancelable(false);
+		progressDialog.setMessage(getResources().getString(R.string.please_wait));
 	}
 
 	public void onClickCreateEvent(View v) {
@@ -85,10 +87,11 @@ public class NewEventActivity extends DashboardActivity {
 			Toast.makeText(getBaseContext(), "Invalid end date", Toast.LENGTH_SHORT).show();
 			return;
 		}
+		progressDialog.show();
 		
-		new AsyncTask<String, Void, Void>() {
+		new AsyncTask<String, Void, Boolean>() {
 			@Override
-			protected Void doInBackground(String... params) {
+			protected Boolean doInBackground(String... params) {
 
 				// get all tags to an array
 				String alltags[] = params[2].split(" ");
@@ -109,15 +112,36 @@ public class NewEventActivity extends DashboardActivity {
 				} else if(type.equalsIgnoreCase("Geolocated")) {
 					eventType = BaseEvent.GEOLOCATED;
 				}
-
-//
-//				try {
-//					Request.createEvent(QBAuth.getBaseService().getToken(), eventType, name, description, ini, end, null, tags, category);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//
-				return null;
+				
+				
+				Date ini = null;
+				Date end = null;
+				try {
+					ini = DateParser.parseString(params[4]);
+					end = DateParser.parseString(params[5]);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+					return false;
+				}
+				
+				try {
+					Request.createEvent(DataHolder.getCurrentUserSession().getSession_id(), eventType, params[0], params[1], ini, end, null, tags, params[3]);
+					return true;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return false;
+			}
+			
+			@Override
+			protected void onPostExecute(Boolean result) {
+				progressDialog.dismiss();
+				if(result) {
+					Toast.makeText(getBaseContext(), "Event added!", Toast.LENGTH_SHORT).show();
+					finish();
+				} else {
+					Toast.makeText(getBaseContext(), "Error adding new event", Toast.LENGTH_SHORT).show();
+				}
 			}
 		}.execute(nameStr, descriptionStr, tagsStr, categoryStr, startStr, endStr);
 	}
