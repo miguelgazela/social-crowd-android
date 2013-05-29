@@ -6,6 +6,7 @@ import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.helpers.EventsListAdapter;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
+import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -85,7 +86,7 @@ public class EventsListActivity extends DashboardActivity {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-//					events = Request.getEventsBySubscriberID(DataHolder.getSignInQbUser().getId());
+					events = Request.getEventsBySubscriberID(DataHolder.getCurrentUserSession().getUser_id());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -106,7 +107,7 @@ public class EventsListActivity extends DashboardActivity {
 			@Override
 			protected Void doInBackground(Void... params) {
 				try {
-//					events = Request.getEventsByOwnerID(DataHolder.getSignInQbUser().getId());
+					events = Request.getEventsByOwnerID(DataHolder.getCurrentUserSession().getUser_id());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

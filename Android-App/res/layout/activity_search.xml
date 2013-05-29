@@ -56,17 +56,6 @@
             <requestFocus />
         </EditText>
 
-        <Button
-            android:id="@+id/search_submit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="75dp"
-            android:layout_alignLeft="@+id/search_tags_input_field"
-            android:layout_alignParentBottom="true"
-            android:onClick="onClickSearch"
-            android:layout_alignRight="@+id/search_tags_input_field"
-            android:layout_marginBottom="36dp"
-            android:text="Go!" />
-
         <EditText
             android:id="@+id/search_category_input_field"
             android:layout_width="wrap_content"
@@ -102,6 +91,16 @@
             android:layout_alignLeft="@+id/search_tags_label"
             android:layout_below="@+id/search_tags_label"
             android:ems="10" />
+
+        <ImageButton
+            style="@style/TitleBarLogo"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search_tags_input_field"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="54dp"
+            android:background="@null"
+            android:onClick="onClickSearch"
+            android:src="@drawable/search_btn" />
 
     </RelativeLayout>
     

@@ -35,6 +35,7 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
+            android:focusableInTouchMode="true"
             android:layout_height="match_parent" >
 
             <EditText
@@ -47,8 +48,6 @@
                 android:ems="10"
                 android:hint="Event name"
                 android:inputType="text" >
-
-                <requestFocus />
             </EditText>
 
             <EditText
@@ -93,7 +92,7 @@
                 android:layout_below="@+id/tags_field"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:hint="Start date (d/m/y)"
+                android:hint="Start date (m/d/y)"
                 android:inputType="date" />
 
             <EditText
@@ -105,7 +104,7 @@
                 android:layout_below="@+id/start_date"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:hint="End date (d/m/y)"
+                android:hint="End date (m/d/y)"
                 android:inputType="date" />
             
             <Button
