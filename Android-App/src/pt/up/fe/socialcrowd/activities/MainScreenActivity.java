@@ -170,6 +170,7 @@ public class MainScreenActivity extends DashboardActivity {
 				DataHolder.setCurrentUserSession(currentUserSession);
 				return true;
 			} catch(Exception e) {
+				e.printStackTrace();
 				return false;
 			}
 		}

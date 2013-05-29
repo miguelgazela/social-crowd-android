@@ -75,33 +75,33 @@ public class NewEventActivity extends DashboardActivity {
 					}
 				}
 
-				DatePicker iniDatePicker = (DatePicker) findViewById(R.id.begin_datepicker);
-				DatePicker endDatePicker = (DatePicker) findViewById(R.id.end_datepicker);
-				GregorianCalendar gc = new GregorianCalendar(
-						iniDatePicker.getYear(),
-						iniDatePicker.getMonth(),
-						iniDatePicker.getDayOfMonth());		
-				Date ini = gc.getTime();
-				gc = new GregorianCalendar(
-						endDatePicker.getYear(),
-						endDatePicker.getMonth(),
-						endDatePicker.getDayOfMonth());
-				Date end = gc.getTime();
-
-				Log.i("eventType", type);
-				Log.i("tags", singleLineTags);
-				Log.i("name", name);
-				Log.i("category", category);
-				Log.i("descrition", description);
-				Log.i("IniDate", ini.toString());
-				Log.i("endDate", end.toString());
-
-				try {
-					Request.createEvent(QBAuth.getBaseService().getToken(), eventType, name, description, ini, end, null, tags, category);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+//				DatePicker iniDatePicker = (DatePicker) findViewById(R.id.begin_datepicker);
+//				DatePicker endDatePicker = (DatePicker) findViewById(R.id.end_datepicker);
+//				GregorianCalendar gc = new GregorianCalendar(
+//						iniDatePicker.getYear(),
+//						iniDatePicker.getMonth(),
+//						iniDatePicker.getDayOfMonth());		
+//				Date ini = gc.getTime();
+//				gc = new GregorianCalendar(
+//						endDatePicker.getYear(),
+//						endDatePicker.getMonth(),
+//						endDatePicker.getDayOfMonth());
+//				Date end = gc.getTime();
+//
+//				Log.i("eventType", type);
+//				Log.i("tags", singleLineTags);
+//				Log.i("name", name);
+//				Log.i("category", category);
+//				Log.i("descrition", description);
+//				Log.i("IniDate", ini.toString());
+//				Log.i("endDate", end.toString());
+//
+//				try {
+//					Request.createEvent(QBAuth.getBaseService().getToken(), eventType, name, description, ini, end, null, tags, category);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//
 				return null;
 			}
 		}.execute();
