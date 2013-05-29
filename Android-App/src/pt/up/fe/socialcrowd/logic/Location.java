@@ -2,6 +2,8 @@ package pt.up.fe.socialcrowd.logic;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 
 public class Location {
 	private String text;
@@ -14,6 +16,16 @@ public class Location {
 	}
 	
 	public static Location parseJSON(JSONObject json) throws JSONException {
+		
+		Log.i("LOCATION", json.toString());
+		Log.i("LOCATION", "id = " + json.getInt("id"));
+		Log.i("LOCATION", "name = " + json.getString("name"));
+		try{
+		Log.i("LOCATION", "json gps object = " + json.getJSONObject("gps"));
+		}catch(JSONException e){
+			return new Location(json.getInt("id"),json.getString("name"), null);
+		}
+		
 		return new Location(json.getInt("id"),json.getString("name"),GPSCoords.parseJSON(json.getJSONObject("gps")));
 	}
 

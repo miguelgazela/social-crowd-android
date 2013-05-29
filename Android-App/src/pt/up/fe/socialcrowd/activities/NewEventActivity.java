@@ -4,24 +4,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.logic.DateParser;
+import pt.up.fe.socialcrowd.logic.Location;
 import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import com.quickblox.module.auth.QBAuth;
 
 public class NewEventActivity extends DashboardActivity {
 
@@ -113,19 +112,22 @@ public class NewEventActivity extends DashboardActivity {
 					eventType = BaseEvent.GEOLOCATED;
 				}
 				
-				
+			
 				Date ini = null;
 				Date end = null;
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 				try {
-					ini = DateParser.parseString(params[4]);
-					end = DateParser.parseString(params[5]);
+					ini = dateFormat.parse(params[4]);
+					end = dateFormat.parse(params[5]);
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 					return false;
 				}
 				
+				Location loc = new Location(0, "unknown", null);
+				
 				try {
-					Request.createEvent(DataHolder.getCurrentUserSession().getSession_id(), eventType, params[0], params[1], ini, end, null, tags, params[3]);
+					Request.createEvent(DataHolder.getCurrentUserSession().getSession_id(), eventType, params[0], params[1], ini, end, loc, tags, params[3]);
 					return true;
 				} catch (Exception e) {
 					e.printStackTrace();
