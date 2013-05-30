@@ -41,5 +41,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="description_logo">Our awesome app</string>
     <string name="title_activity_event">EventActivity</string>
+    <string name="rate_event">Rate this event</string>
+    <string name="ok_button_text">Ok</string>
+    <string name="cancel_button_text">Cancel</string>
 
 </resources>

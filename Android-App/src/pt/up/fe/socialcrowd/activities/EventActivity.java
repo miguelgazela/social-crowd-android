@@ -6,6 +6,8 @@ import java.util.Date;
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
 import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
+import pt.up.fe.socialcrowd.helpers.RateDialogFragment;
+import pt.up.fe.socialcrowd.helpers.RateDialogFragment.NoticeDialogListener;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
@@ -15,6 +17,7 @@ import pt.up.fe.socialcrowd.logic.Upvote;
 import pt.up.fe.socialcrowd.logic.Vote;
 import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,12 +33,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EventActivity extends DashboardActivity implements OnClickListener {
+public class EventActivity extends DashboardActivity implements OnClickListener, NoticeDialogListener {
 
 	private DetailedEvent event = null;
+	private RateDialogFragment rdf;
+	private RatingBar rBar;
 	private ProgressDialog progressDialog = null;
 	private TextView eventName, eventLocation, eventDescription, eventTags, eventCategory;
 	private EditText inputComment;
@@ -373,8 +379,32 @@ public class EventActivity extends DashboardActivity implements OnClickListener 
 		}.execute();
 	}
 
+	public void onClickRate(View v){	
+		rdf = new RateDialogFragment();
+		rdf.show(getFragmentManager(), "Rating");
+	}
+	
 	@Override
 	public void onClick(View v) {
 		Log.i("onClick", "it worked");
 	}
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		
+		rBar = (RatingBar) findViewById(R.id.eventRatingBar);
+		rBar.getRating();
+		Log.i("WHOOOO", "IT WORKED");
+		
+	}
+
+	@Override
+	public void onDialogNegativeClick(DialogFragment dialog) {
+		
+		
+		dialog.dismiss();
+		
+	}
+		
+	
 }
