@@ -36,11 +36,13 @@
         <activity
             android:name="pt.up.fe.socialcrowd.activities.MainScreenActivity"
             android:screenOrientation="portrait" >
+              
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
         </activity>
         <activity
             android:name="pt.up.fe.socialcrowd.activities.EventsListActivity"
@@ -83,12 +85,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.D1" >
 
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
+  
+    
+ 
 
         </activity>
         <activity
@@ -96,7 +95,18 @@
             android:label="@string/title_activity_event"
             android:screenOrientation="portrait" >
         </activity>
-
+        <activity
+            android:name=".activities.ChooseLocationActivity"
+            android:label="@string/title_activity_location"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.D1" >
+        </activity>
+         <activity
+            android:name=".activities.MarkerActivity"
+            android:label="@string/title_activity_location"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.D1" >
+        </activity>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDNBztthqHo6qKw371RKx9fu4ZYygITQAA" />
