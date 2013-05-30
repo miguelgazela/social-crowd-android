@@ -1,13 +1,16 @@
 package pt.up.fe.socialcrowd.activities;
 
+import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.json.JSONException;
+
 import pt.up.fe.socialcrowd.R;
 import pt.up.fe.socialcrowd.API.Request;
+import pt.up.fe.socialcrowd.API.RequestException;
 import pt.up.fe.socialcrowd.helpers.CommentsListAdapter;
-import pt.up.fe.socialcrowd.helpers.RateDialogFragment;
-import pt.up.fe.socialcrowd.helpers.RateDialogFragment.NoticeDialogListener;
 import pt.up.fe.socialcrowd.logic.BaseEvent;
 import pt.up.fe.socialcrowd.logic.Comment;
 import pt.up.fe.socialcrowd.logic.DetailedEvent;
@@ -17,15 +20,17 @@ import pt.up.fe.socialcrowd.logic.Upvote;
 import pt.up.fe.socialcrowd.logic.Vote;
 import pt.up.fe.socialcrowd.managers.DataHolder;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -37,10 +42,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class EventActivity extends DashboardActivity implements OnClickListener, NoticeDialogListener {
+public class EventActivity extends DashboardActivity implements OnClickListener {
 
 	private DetailedEvent event = null;
-	private RateDialogFragment rdf;
 	private RatingBar rBar;
 	private ProgressDialog progressDialog = null;
 	private TextView eventName, eventLocation, eventDescription, eventTags, eventCategory;
@@ -139,7 +143,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener,
 
 			final ListView commentsList = (ListView) findViewById(R.id.commentsList);
 			commentsList.setAdapter(new CommentsListAdapter(this, comments));
-			
+
 			// add click handler to view single event
 			commentsList.setOnItemClickListener(new OnItemClickListener() {
 				@Override
@@ -149,15 +153,15 @@ public class EventActivity extends DashboardActivity implements OnClickListener,
 
 					// Launching new dialog on selecting single List Item
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EventActivity.this);
-					
+
 					CharSequence[] choices = null;
-					
+
 					if(comment.getAuthor_id() == DataHolder.getCurrentUserSession().getUser_id()) {
 						final CharSequence[] items = {"Delete"};
 						choices = items;
 					} else {
 						boolean found = false;
-						
+
 						// check if user has voted in this comment
 						ArrayList<Upvote> upvotes = comment.getUpvotes();
 						for(Upvote u : upvotes) {
@@ -168,7 +172,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener,
 								break;
 							}
 						}
-						
+
 						if(!found) {
 							ArrayList<Downvote> downvotes = comment.getDownvotes();
 							for(Downvote u : downvotes) {
@@ -180,13 +184,13 @@ public class EventActivity extends DashboardActivity implements OnClickListener,
 								}
 							}
 						}
-						
+
 						if(!found) {
 							final CharSequence[] items = {"Like","Dislike"};
 							choices = items;
 						}
 					}
-					
+
 					final CharSequence[] choicesFinal = choices;
 
 					// set title
@@ -194,7 +198,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener,
 					.setTitle("Available actions")
 					.setItems(choices, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
-							
+
 							final String choice = choicesFinal[which].toString();
 							new AsyncTask<Void, Void, Void>() {
 
@@ -202,7 +206,7 @@ public class EventActivity extends DashboardActivity implements OnClickListener,
 								protected Void doInBackground(Void... params) {
 									try {
 										Log.i("new vote up on comment", ""+choice);
-										
+
 										if(choice.equalsIgnoreCase("Delete")) {
 											Request.deleteComment(DataHolder.getCurrentUserSession().getSession_id(), comment.getId());
 										} else if (choice.equalsIgnoreCase("Like")) {
@@ -380,31 +384,66 @@ public class EventActivity extends DashboardActivity implements OnClickListener,
 	}
 
 	public void onClickRate(View v){	
-		rdf = new RateDialogFragment();
-		rdf.show(getFragmentManager(), "Rating");
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(EventActivity.this);
+
+		rBar = new RatingBar(getBaseContext());
+		rBar.setNumStars(5);
+		rBar.setLayoutParams(new LayoutParams(50, LayoutParams.WRAP_CONTENT));
+		
+		
+		builder.setMessage(R.string.rate_event);
+		builder.setPositiveButton(R.string.ok_button_text, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+
+				new AsyncTask<Void, Void, Void>() {
+
+					@Override
+					protected Void doInBackground(Void... params) {
+						
+						int rating = (int) rBar.getRating();
+						
+						try {
+							Request.createRating(
+									DataHolder.getCurrentUserSession().getSession_id(),
+									getIntent().getIntExtra("event_id", -1), rating);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}	
+					
+						
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(Void result) {
+
+					}
+				}.execute();
+				
+			}
+		});
+		builder.setNegativeButton(R.string.cancel_button_text, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+		
+		builder.setView(rBar);
+		
+		AlertDialog alertDialog = builder.create();
+
+		// show it
+		alertDialog.show();
+
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		Log.i("onClick", "it worked");
 	}
 
-	@Override
-	public void onDialogPositiveClick(DialogFragment dialog) {
-		
-		rBar = (RatingBar) findViewById(R.id.eventRatingBar);
-		rBar.getRating();
-		Log.i("WHOOOO", "IT WORKED");
-		
-	}
 
-	@Override
-	public void onDialogNegativeClick(DialogFragment dialog) {
-		
-		
-		dialog.dismiss();
-		
-	}
-		
-	
+
 }
